@@ -25,7 +25,7 @@
 					<h1 id="courseName">[[_courseName]]</h1>
 				</div>
 			</div>
-			<template is="dom-if" if="{{_showDropdown(_removeBannerAction)}}" restamp="true">
+			<template is="dom-if" if="{{_showDropdown(_removeBannerAction, _changeImageAction)}}" restamp="true">
 				<d2l-dropdown>
 					<button	class="menu-item no-tap-interaction d2l-dropdown-opener" aria-label$="[[localize('bannerSettings')]]">
 						<div class="elipsis-icon-container">
@@ -109,6 +109,7 @@
 				userId: String, // hashed userid to send to telemetry
 				tenantId: String, // hashed tenantid to send to telemetry
 				telemetryEndpoint: String, // URL to send telemetry to
+				hasChangeImage: Boolean, // feature flag
 				imageSelectorOpen: { // Temporarily set z-index to 100 so that iron-overlay can work (it is set to 999 at body level)
 					type: Boolean,
 					value: false,
@@ -260,8 +261,8 @@
 			_parseSiren: function(entity) {
 				return window.D2L.Hypermedia.Siren.Parse(entity);
 			},
-			_showDropdown: function(removeBannerAction) {
-				return !!removeBannerAction;
+			_showDropdown: function(removeBannerAction, changeImageAction) {
+				return !!removeBannerAction || !!changeImageAction;
 			},
 			_onOrganizationResponse: function(response) {
 				var self = this;
@@ -286,6 +287,9 @@
 
 						self._removeBannerAction = (organization.getActionByName('remove-homepage-banner') || {}).href;
 						self._changeImageAction = (organization.getActionByName('set-catalog-image') || {}).href;
+						if (!self.hasChangeImage) {
+							self._changeImageAction = null;
+						}
 						if (self._removeBannerAction || self._changeImageAction) {
 							Polymer.dom(self.$.courseName).classList.add('menu-exists');
 						}
