@@ -6,9 +6,12 @@
 <link rel="import" href="../../d2l-dropdown/d2l-dropdown.html">
 <link rel="import" href="../../d2l-dropdown/d2l-dropdown-menu.html">
 <link rel="import" href="../../d2l-icons/d2l-icons.html">
+<link rel="import" href="../../d2l-image-selector/d2l-basic-image-selector.html">
 <link rel="import" href="../../d2l-loading-spinner/d2l-loading-spinner.html">
 <link rel="import" href="../../d2l-organization-hm-behavior/d2l-organization-hm-behavior.html">
 <link rel="import" href="../../d2l-performance/d2l-performance.html">
+<link rel="import" href="../../d2l-simple-overlay/d2l-simple-overlay.html">
+<link rel="import" href="../../iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="d2l-image-banner-overlay-styles.html">
 <link rel="import" href="localize-behavior.html">
 
@@ -37,6 +40,12 @@
 									on-d2l-menu-item-select="_toggleCourseBanner">
 								</d2l-menu-item>
 							</template>
+							<template is="dom-if" if="{{_changeImageAction}}" restamp="true">
+								<d2l-menu-item id="change-image-button"
+									text="[[localize('changeImage')]]"
+									on-d2l-menu-item-select="_launchCourseTileImageSelector">
+								</d2l-menu-item>
+							</template>
 						</d2l-menu>
 					</d2l-dropdown-menu>
 				</d2l-dropdown>
@@ -48,6 +57,24 @@
 				</div>
 			</div>
 		</div>
+		<d2l-simple-overlay
+			id="basic-image-selector-overlay"
+			title-name="{{localize('changeImage')}}"
+			locale="[[locale]]"
+			close-simple-overlay-alt-text="{{localize('closeSimpleOverlayAltText')}}"
+			with-backdrop>
+			<iron-scroll-threshold
+				id="image-selector-threshold"
+				on-lower-threshold="_onChangeImageLowerThreshold">
+			</iron-scroll-threshold>
+			<d2l-basic-image-selector
+				image-catalog-location="[[imageCatalogLocation]]"
+				organization="[[_organization]]"
+				user-id="[[userId]]"
+				tenant-id="[[tenantId]]"
+				telemetry-endpoint="[[telemetryEndpoint]]">
+			</d2l-basic-image-selector>
+		</d2l-simple-overlay>
 		<d2l-alert
 			id="optBackInAlert"
 			hidden$="[[!_showBannerRemovedAlert]]"
@@ -78,11 +105,21 @@
 			is: 'd2l-image-banner-overlay',
 			properties: {
 				organizationUrl: String, // url used to request organization information
+				imageCatalogLocation: String, // URL that is called by the widget to fetch results from the course image catalog
+				userId: String, // hashed userid to send to telemetry
+				tenantId: String, // hashed tenantid to send to telemetry
+				telemetryEndpoint: String, // URL to send telemetry to
+				imageSelectorOpen: { // Temporarily set z-index to 100 so that iron-overlay can work (it is set to 999 at body level)
+					type: Boolean,
+					value: false,
+					reflectToAttribute: true
+				},
 				_courseName: String, // the name to display in the main text area of the overlay
 				_removeBannerAction: String, // a siren action to be executed when the remove banner menu option is clicked
 				_addBannerAction: String, // a siren action to be executed when the Undo option is clicked on the alert
 				_optBackInStart: String, // the first portion of the localized text to display in the alert when the banner has been removed
 				_optBackInEnd: String, // the last portion of the localized text to display in the alert when the banner has been removed
+				_organization: Object, // The organization Entity, fetched by the course tile when the `enrollment` Entity is changed
 				_courseOfferingInfoLink: String, // the url to navigate to if the user wishes to adjust course offering settings, displayed in the alert when the banner has been removed
 				_showBannerRemovedAlert: Boolean, // indicates if the optBackIn alert should be displayed
 				_showBannerErrorAlert: Boolean, // indicates if the "something went wrong alert should be displayed"
@@ -104,7 +141,12 @@
 			],
 			listeners: {
 				'alert-button-pressed': '_onAlertButtonPressed',
-				'alert-closed': '_onAlertClosed'
+				'alert-closed': '_onAlertClosed',
+				'clear-image-scroll-threshold': '_onClearImageScrollThreshold',
+				'd2l-simple-overlay-closed': '_onSimpleOverlayClosed'
+			},
+			attached: function() {
+				this.$['image-selector-threshold'].scrollTarget = this.$['basic-image-selector-overlay'].scrollRegion;
 			},
 			ready: function() {
 				this._addPerfMark('ready');
@@ -120,6 +162,12 @@
 						})
 					}))
 					.then(this._onOrganizationResponse.bind(this));
+			},
+			_onChangeImageLowerThreshold: function() {
+				this.$$('d2l-basic-image-selector').loadMore(this.$['image-selector-threshold']);
+			},
+			_onClearImageScrollThreshold: function() {
+				this.$['image-selector-threshold'].clearTriggers();
 			},
 			_onSetCourseImage: function(e) {
 				var org = this._parseSiren(e.detail.organization);
@@ -151,6 +199,9 @@
 					}
 				}
 			},
+			_onSimpleOverlayClosed: function() {
+				this.imageSelectorOpen = false;
+			},
 			_displaySetImageResult: function(success) {
 				var overlayContent = this.$.overlayContent,
 					successClass = 'change-image-success',
@@ -174,6 +225,25 @@
 						this.toggleClass(failureClass, false, overlayContent);
 					}.bind(this), 1000);
 				}.bind(this), 1000);
+			},
+			_telemetryRequest: null,
+			_launchCourseTileImageSelector: function() {
+				this._telemetryRequest = this._telemetryRequest || document.createElement('d2l-ajax');
+				this._telemetryRequest.url = this.telemetryEndpoint;
+				this._telemetryRequest.method = 'POST';
+				this._telemetryRequest.headers = {
+					'content-type': 'application/json'
+				};
+				this._telemetryRequest.body = JSON.stringify({
+					name: 'LaunchChangeImage',
+					ts: Math.round(Date.now() / 1000),
+					userId: this.userId,
+					tenantId: this.tenantId
+				});
+				this._telemetryRequest.generateRequest();
+
+				this.imageSelectorOpen = true;
+				this.$['basic-image-selector-overlay'].open();
 			},
 			_setBannerImage: function(image) {
 				var bannerImage = document.querySelector('.d2l-course-banner .d2l-course-banner-image');
@@ -204,6 +274,9 @@
 					.json()
 					.then(function(bodyAsJson) {
 						var organization = self._parseSiren(bodyAsJson);
+
+						self._organization = organization;
+
 						self._addPerfMark('org-response.parsed');
 						self._addPerfMeasure('ready-to-org-response-parsed', 'ready', 'org-response.parsed');
 
@@ -212,7 +285,8 @@
 						}
 
 						self._removeBannerAction = (organization.getActionByName('remove-homepage-banner') || {}).href;
-						if (self._removeBannerAction) {
+						self._changeImageAction = (organization.getActionByName('set-catalog-image') || {}).href;
+						if (self._removeBannerAction || self._changeImageAction) {
 							Polymer.dom(self.$.courseName).classList.add('menu-exists');
 						}
 						var offeringLink = organization && organization.getLinkByRel(/course-offering-info-page/);
