@@ -72,7 +72,8 @@
 				organization="[[_organization]]"
 				user-id="[[userId]]"
 				tenant-id="[[tenantId]]"
-				telemetry-endpoint="[[telemetryEndpoint]]">
+				telemetry-endpoint="[[telemetryEndpoint]]"
+				course-image-upload-cb="[[courseImageUploadCb]]">
 			</d2l-basic-image-selector>
 		</d2l-simple-overlay>
 		<d2l-alert
@@ -104,6 +105,7 @@
 		Polymer({
 			is: 'd2l-image-banner-overlay',
 			properties: {
+				courseImageUploadCb: Function, // callback function for d2l-image-selector
 				organizationUrl: String, // url used to request organization information
 				imageCatalogLocation: String, // URL that is called by the widget to fetch results from the course image catalog
 				userId: String, // hashed userid to send to telemetry
@@ -134,6 +136,7 @@
 						iconName: ''
 					}
 				},
+				_shouldRefreshCourseImage: Boolean, // whether or not to refresh course image after getting org info
 				_nextImage: Object // when changing the banner image, the next image to show
 			},
 			behaviors: [
@@ -155,7 +158,25 @@
 				this._showBannerErrorAlert = false;
 				Polymer.dom(this.$.overlayContent).classList.add('d2l-image-banner-overlay-content-shown');
 				document.body.addEventListener('set-course-image', this._onSetCourseImage.bind(this));
+				this._getOrganizationInfo();
+			},
+			courseImageUploadCompleted: function(success) {
+				var overlayContent = this.$.overlayContent;
 
+				if (success) {
+					this.$['basic-image-selector-overlay'].close();
+					this.toggleClass('change-image-loading', true, overlayContent);
+					this._shouldRefreshCourseImage = true;
+					this._getOrganizationInfo();
+				} else {
+					this._displaySetImageResult(false);
+				}
+				this.focus();
+			},
+			focus: function() {
+				this.$$('button').focus();
+			},
+			_getOrganizationInfo: function() {
 				window.d2lauthify
 					.fetch(new Request(this.organizationUrl, {
 						headers: new Headers({
@@ -203,7 +224,7 @@
 			_onSimpleOverlayClosed: function() {
 				this.imageSelectorOpen = false;
 			},
-			_displaySetImageResult: function(success) {
+			_displaySetImageResult: function(success, forceImgRefresh) {
 				var overlayContent = this.$.overlayContent,
 					successClass = 'change-image-success',
 					failureClass = 'change-image-failure';
@@ -220,7 +241,7 @@
 					// Remove the icon after a bit of time
 					setTimeout(function() {
 						if (success) {
-							this._setBannerImage(this._nextImage);
+							this._setBannerImage(this._nextImage, forceImgRefresh);
 						}
 						this.toggleClass(successClass, false, overlayContent);
 						this.toggleClass(failureClass, false, overlayContent);
@@ -246,9 +267,11 @@
 				this.imageSelectorOpen = true;
 				this.$['basic-image-selector-overlay'].open();
 			},
-			_setBannerImage: function(image) {
+			_setBannerImage: function(image, forceImgRefresh) {
 				var bannerImage = document.querySelector('.d2l-course-banner .d2l-course-banner-image');
 				var imageSrc = this._getDefaultImageLink(image);
+
+				imageSrc = forceImgRefresh ? imageSrc + '#' + new Date().getTime() : imageSrc;
 
 				if (bannerImage && imageSrc) {
 					bannerImage.src = imageSrc;
@@ -263,6 +286,21 @@
 			},
 			_showDropdown: function(removeBannerAction, changeImageAction) {
 				return !!removeBannerAction || !!changeImageAction;
+			},
+			_onCourseImageResponse: function(response) {
+				var self = this;
+
+				if (!response.ok) {
+					self._displaySetImageResult(false);
+					return;
+				}
+
+				response
+					.json()
+					.then(function(bodyAsJson) {
+						self._nextImage = self._parseSiren(bodyAsJson);
+						self._displaySetImageResult(true, true);
+					});
 			},
 			_onOrganizationResponse: function(response) {
 				var self = this;
@@ -304,7 +342,20 @@
 							self._addPerfMark('org-response.rendered'); // eslint-disable-line no-invalid-this
 							self._addPerfMeasure('ready-to-org-response-displayed', 'ready', 'org-response.rendered'); // eslint-disable-line no-invalid-this
 						});
+
+						if (self._shouldRefreshCourseImage) {
+							self._refreshCourseImage(organization.getSubEntitiesByClass('course-image')[0].href);
+						}
 					});
+			},
+			_refreshCourseImage: function(courseImageApiUrl) {
+				window.d2lauthify
+					.fetch(new Request(courseImageApiUrl, {
+						headers: new Headers({
+							Accept: 'application/vnd.siren+json'
+						})
+					}))
+					.then(this._onCourseImageResponse.bind(this));
 			},
 			_toggleCourseBanner: function() {
 				var relevantAction = this._addBannerAction || this._removeBannerAction;
