@@ -344,7 +344,7 @@
 						});
 
 						if (self._shouldRefreshCourseImage) {
-							self._refreshCourseImage(organization.getSubEntitiesByClass('course-image')[0].href);
+							self._refreshCourseImage(organization.getSubEntityByClass('course-image').href);
 						}
 					});
 			},
