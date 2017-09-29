@@ -151,6 +151,7 @@
 			},
 			attached: function() {
 				this.$['image-selector-threshold'].scrollTarget = this.$['basic-image-selector-overlay'].scrollRegion;
+				this._getOrganizationInfo();
 			},
 			ready: function() {
 				this._addPerfMark('ready');
@@ -158,7 +159,6 @@
 				this._showBannerErrorAlert = false;
 				Polymer.dom(this.$.overlayContent).classList.add('d2l-image-banner-overlay-content-shown');
 				document.body.addEventListener('set-course-image', this._onSetCourseImage.bind(this));
-				this._getOrganizationInfo();
 			},
 			courseImageUploadCompleted: function(success) {
 				var overlayContent = this.$.overlayContent;
