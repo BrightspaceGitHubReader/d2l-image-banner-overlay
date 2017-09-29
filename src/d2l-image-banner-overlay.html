@@ -78,22 +78,17 @@
 		<d2l-alert
 			id="optBackInAlert"
 			hidden$="[[!_showBannerRemovedAlert]]"
-			has-button="true"
-			button-message="[[localize('undo')]]"
+			button-text="[[localize('undo')]]"
 			has-close-button="true"
-			close-button-title="[[localize('closeAlert')]]"
-			role="alert"
-		>
+			role="alert">
 			<span>[[_optBackInStart]]</span><a is="d2l-link" href$="[[_courseOfferingInfoLink]]">[[localize('courseOfferingInformation')]]</a><span>[[_optBackInEnd]]</span>
 		</d2l-alert>
 		<d2l-alert
 			id="errorAlert"
 			hidden$="[[!_showBannerErrorAlert]]"
 			has-close-button="true"
-			close-button-title="[[localize('closeAlert')]]"
 			role="alert"
-			type="error"
-		>
+			type="error">
 			<span>[[_errorAlertStart]]</span><a is="d2l-link" href="javascript:window.location.reload(true)">[[localize('refreshAndTryAgain')]]</a><span>[[_errorAlertEnd]]</span>
 		</d2l-alert>
 	</template>

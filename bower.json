@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "app-localize-behavior": "PolymerElements/app-localize-behavior#^1.0.2",
-    "d2l-alert": "git://github.com/Brightspace/alert.git#^1.0.2",
+    "d2l-alert": "^2.0.0",
     "d2l-authify-import": "https://github.com/Brightspace/d2l-authify-import.git#^0.4.0",
     "d2l-colors": "^2.3.0",
     "d2l-dropdown": "^5.0.6",
