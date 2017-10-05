@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "postinstall": "bower install",
-    "test": "npm run test:lint:js && wct",
+    "test": "npm run test:lint:js && test:lint:wc && polymer test",
     "test:lint:js": "eslint --ext .js,.html .",
-    "test:no-lint": "wct -p"
+    "test:lint:wc": "polymer lint",
+    "test:no-lint": "cross-env LAUNCHPAD_BROWSERS=chrome wct -p"
   },
   "homepage": "https://github.com/Brightspace/d2l-image-banner-overlay",
   "repository": {
@@ -26,11 +27,12 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "bower": "^1.7.7",
+    "cross-env": "^5.0.5",
     "eslint": "^2.4.0",
     "eslint-config-brightspace": "^0.2.1",
     "eslint-plugin-html": "^1.4.0",
-    "polylint": "^2.10.1",
+    "polymer-cli": "^1.5.6",
     "rimraf": "^2.5.2",
-    "web-component-tester": "^5.0.0"
+    "web-component-tester": "^6.0.0"
   }
 }
