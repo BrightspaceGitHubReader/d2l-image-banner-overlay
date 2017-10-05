@@ -1,7 +1,7 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../promise-polyfill/promise-polyfill-lite.html">
 <link rel="import" href="../../d2l-alert/d2l-alert.html">
-<link rel="import" href="../../d2l-authify-import/d2l-authify.html">
+<link rel="import" href="../../d2l-fetch/d2l-fetch.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-dropdown/d2l-dropdown.html">
 <link rel="import" href="../../d2l-dropdown/d2l-dropdown-menu.html">
@@ -60,7 +60,6 @@
 		<d2l-simple-overlay
 			id="basic-image-selector-overlay"
 			title-name="{{localize('changeImage')}}"
-			locale="[[locale]]"
 			close-simple-overlay-alt-text="{{localize('closeSimpleOverlayAltText')}}"
 			with-backdrop>
 			<iron-scroll-threshold
@@ -172,7 +171,7 @@
 				this.$$('button').focus();
 			},
 			_getOrganizationInfo: function() {
-				window.d2lauthify
+				window.d2lfetch
 					.fetch(new Request(this.organizationUrl, {
 						headers: new Headers({
 							Accept: 'application/vnd.siren+json'
@@ -245,19 +244,21 @@
 			},
 			_telemetryRequest: null,
 			_launchCourseTileImageSelector: function() {
-				this._telemetryRequest = this._telemetryRequest || document.createElement('d2l-ajax');
-				this._telemetryRequest.url = this.telemetryEndpoint;
-				this._telemetryRequest.method = 'POST';
-				this._telemetryRequest.headers = {
-					'content-type': 'application/json'
-				};
-				this._telemetryRequest.body = JSON.stringify({
+				var body = {
 					name: 'LaunchChangeImage',
 					ts: Math.round(Date.now() / 1000),
 					userId: this.userId,
 					tenantId: this.tenantId
-				});
-				this._telemetryRequest.generateRequest();
+				};
+
+				this._telemetryRequest = window.d2lfetch
+					.fetch(new Request(this.telemetryEndpoint, {
+						method: 'POST',
+						headers: {
+							'content-type': 'application/json'
+						},
+						body: JSON.stringify(body)
+					}));
 
 				this.imageSelectorOpen = true;
 				this.$['basic-image-selector-overlay'].open();
@@ -344,7 +345,7 @@
 					});
 			},
 			_refreshCourseImage: function(courseImageApiUrl) {
-				window.d2lauthify
+				window.d2lfetch
 					.fetch(new Request(courseImageApiUrl, {
 						headers: new Headers({
 							Accept: 'application/vnd.siren+json'
@@ -357,7 +358,7 @@
 				Polymer.dom(this.$.overlayContent).classList.add('loading-overlay-shown');
 
 				if (relevantAction) {
-					window.d2lauthify
+					window.d2lfetch
 						.fetch(new Request(relevantAction, {
 							method: 'PUT',
 							headers: new Headers({
