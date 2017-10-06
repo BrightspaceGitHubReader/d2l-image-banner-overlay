@@ -9,7 +9,6 @@
 <link rel="import" href="../../d2l-image-selector/d2l-basic-image-selector.html">
 <link rel="import" href="../../d2l-loading-spinner/d2l-loading-spinner.html">
 <link rel="import" href="../../d2l-organization-hm-behavior/d2l-organization-hm-behavior.html">
-<link rel="import" href="../../d2l-performance/d2l-performance.html">
 <link rel="import" href="../../d2l-simple-overlay/d2l-simple-overlay.html">
 <link rel="import" href="../../iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="d2l-image-banner-overlay-styles.html">
@@ -426,14 +425,18 @@
 				}
 			},
 			_addPerfMark: function(name) {
-				D2L.Performance.mark('d2l.image-banner-overlay.' + name);
+				if (window.performance && window.performance.mark) {
+					window.performance.mark('d2l.image-banner-overlay.' + name);
+				}
 			},
 			_addPerfMeasure: function(name, startName, endName) {
-				D2L.Performance.measure(
-					'd2l.image-banner-overlay.' + name,
-					'd2l.image-banner-overlay.' + startName,
-					'd2l.image-banner-overlay.' + endName
-				);
+				if (window.performance && window.performance.measure) {
+					window.performance.measure(
+						'd2l.image-banner-overlay.' + name,
+						'd2l.image-banner-overlay.' + startName,
+						'd2l.image-banner-overlay.' + endName
+					);
+				}
 			}
 		});
 	</script>
