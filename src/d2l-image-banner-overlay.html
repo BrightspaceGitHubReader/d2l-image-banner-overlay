@@ -68,9 +68,6 @@
 			<d2l-basic-image-selector
 				image-catalog-location="[[imageCatalogLocation]]"
 				organization="[[_organization]]"
-				user-id="[[userId]]"
-				tenant-id="[[tenantId]]"
-				telemetry-endpoint="[[telemetryEndpoint]]"
 				course-image-upload-cb="[[courseImageUploadCb]]">
 			</d2l-basic-image-selector>
 		</d2l-simple-overlay>
@@ -101,9 +98,6 @@
 				courseImageUploadCb: Function, // callback function for d2l-image-selector
 				organizationUrl: String, // url used to request organization information
 				imageCatalogLocation: String, // URL that is called by the widget to fetch results from the course image catalog
-				userId: String, // hashed userid to send to telemetry
-				tenantId: String, // hashed tenantid to send to telemetry
-				telemetryEndpoint: String, // URL to send telemetry to
 				hasChangeImage: Boolean, // feature flag
 				imageSelectorOpen: { // Temporarily set z-index to 100 so that iron-overlay can work (it is set to 999 at body level)
 					type: Boolean,
@@ -241,24 +235,7 @@
 					}.bind(this), 1000);
 				}.bind(this), 1000);
 			},
-			_telemetryRequest: null,
 			_launchCourseTileImageSelector: function() {
-				var body = {
-					name: 'LaunchChangeImage',
-					ts: Math.round(Date.now() / 1000),
-					userId: this.userId,
-					tenantId: this.tenantId
-				};
-
-				this._telemetryRequest = window.d2lfetch
-					.fetch(new Request(this.telemetryEndpoint, {
-						method: 'POST',
-						headers: {
-							'content-type': 'application/json'
-						},
-						body: JSON.stringify(body)
-					}));
-
 				this.imageSelectorOpen = true;
 				this.$['basic-image-selector-overlay'].open();
 			},
