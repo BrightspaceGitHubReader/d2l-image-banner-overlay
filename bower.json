@@ -50,8 +50,7 @@
     "iron-overlay-behavior": "^1.10.4",
     "iron-scroll-threshold": "PolymerElements/iron-scroll-threshold#^1.0.3",
     "iron-pages": "^1.0.9",
-    "polymer": "^1.11.0",
-    "promise-polyfill": "PolymerLabs/promise-polyfill#^1.0.1"
+    "polymer": "^1.11.0"
   },
   "devDependencies": {
     "web-component-tester": "^6.4.0"
