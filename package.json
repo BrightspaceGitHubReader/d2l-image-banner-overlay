@@ -3,11 +3,11 @@
   "description": "Brightspace Course Image Banner Overlay",
   "private": true,
   "scripts": {
-    "postinstall": "bower install",
-    "test": "npm run test:lint:js && test:lint:wc && polymer test",
-    "test:lint:js": "eslint --ext .js,.html .",
-    "test:lint:wc": "polymer lint",
-    "test:no-lint": "cross-env LAUNCHPAD_BROWSERS=chrome wct -p"
+    "postinstall": "polymer install",
+    "test": "npm run lint && polymer test",
+    "lint": "npm run lint:js && npm run lint:wc",
+    "lint:js": "eslint --ext .js,.html .",
+    "lint:wc": "polymer lint"
   },
   "homepage": "https://github.com/Brightspace/d2l-image-banner-overlay",
   "repository": {
@@ -26,13 +26,9 @@
   "author": "D2L Corporation",
   "license": "Apache-2.0",
   "devDependencies": {
-    "bower": "^1.7.7",
-    "cross-env": "^5.0.5",
-    "eslint": "^2.4.0",
-    "eslint-config-brightspace": "^0.2.1",
-    "eslint-plugin-html": "^1.4.0",
-    "polymer-cli": "^1.5.6",
-    "rimraf": "^2.5.2",
-    "web-component-tester": "^6.0.0"
+    "eslint": "^4.11.0",
+    "eslint-config-brightspace": "^0.4.0",
+    "eslint-plugin-html": "^4.0.0",
+    "polymer-cli": "^1.5.7"
   }
 }

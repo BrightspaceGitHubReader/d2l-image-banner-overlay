@@ -1,7 +1,3 @@
-/* global describe, it, beforeEach, fixture, expect */
-
-'use strict';
-
 describe('d2l-image-banner-overlay', function() {
 	var component;
 
