@@ -46,5 +46,8 @@
   },
   "devDependencies": {
     "web-component-tester": "^6.4.0"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.7.24"
   }
 }
