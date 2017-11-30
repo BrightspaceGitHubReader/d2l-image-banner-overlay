@@ -184,8 +184,10 @@
 						if (response.ok) {
 							return response.json();
 						}
+						return Promise.reject(response.status + response.statusText);
 					})
-					.then(this._onOrganizationResponse.bind(this));
+					.then(this._onOrganizationResponse.bind(this))
+					.catch(this._onFetchError.bind(this));
 			},
 			_onChangeImageLowerThreshold: function() {
 				this.$$('d2l-basic-image-selector').loadMore(this.$['image-selector-threshold']);
@@ -197,7 +199,7 @@
 				var org = this._parseSiren(e.detail.organization);
 				var orgSelfLink = (org.getLinkByRel('self') || {}).href || '';
 
-				if (orgSelfLink.toLowerCase() !== this.organizationUrl.toLowerCase()) {
+				if (orgSelfLink !== this.organizationUrl) {
 					return;
 				}
 
@@ -357,7 +359,7 @@
 						return Promise.reject(response.status + response.statusText);
 					})
 					.then(this._onToggleBannerResponse.bind(this))
-					.catch(this._onToggleBannerError.bind(this));
+					.catch(this._onFetchError.bind(this));
 			},
 			_onToggleBannerResponse: function(organization) {
 				var organizationEntity = this._parseSiren(organization) || {};
@@ -371,7 +373,7 @@
 					this._showAlert(false);
 				}
 			},
-			_onToggleBannerError: function() {
+			_onFetchError: function() {
 				this._showBannerErrorAlert = true;
 				this._removeBannerUrl = null;
 				var placeholder = 'REFRESH_PAGE';
