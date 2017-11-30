@@ -22,31 +22,29 @@
 					<h1 id="courseName">[[_courseName]]</h1>
 				</div>
 			</div>
-			<template is="dom-if" if="[[_showDropdown(_removeBannerUrl, _changeImageUrl)]]">
-				<d2l-dropdown>
-					<button	class="menu-item no-tap-interaction d2l-dropdown-opener" aria-label$="[[localize('bannerSettings')]]">
-						<div class="elipsis-icon-container">
-							<d2l-icon class="elipsis-icon" icon="d2l-tier1:more"></d2l-icon>
-						</div>
-					</button>
-					<d2l-dropdown-menu id="overflow-dropdown">
-						<d2l-menu label$="[[localize('bannerSettings')]]">
-							<template is="dom-if" if="[[_removeBannerUrl]]">
-								<d2l-menu-item id="opt-out-button"
-									text="[[localize('removeBanner')]]"
-									on-d2l-menu-item-select="_toggleCourseBanner">
-								</d2l-menu-item>
-							</template>
-							<template is="dom-if" if="[[_changeImageUrl]]">
-								<d2l-menu-item id="change-image-button"
-									text="[[localize('changeImage')]]"
-									on-d2l-menu-item-select="_launchCourseTileImageSelector">
-								</d2l-menu-item>
-							</template>
-						</d2l-menu>
-					</d2l-dropdown-menu>
-				</d2l-dropdown>
-			</template>
+			<d2l-dropdown hidden$="[[!_showDropdown]]">
+				<button	class="menu-item no-tap-interaction d2l-dropdown-opener" aria-label$="[[localize('bannerSettings')]]">
+					<div class="elipsis-icon-container">
+						<d2l-icon class="elipsis-icon" icon="d2l-tier1:more"></d2l-icon>
+					</div>
+				</button>
+				<d2l-dropdown-menu id="overflow-dropdown">
+					<d2l-menu label$="[[localize('bannerSettings')]]">
+						<d2l-menu-item
+							id="opt-out-button"
+							hidden$="[[!_showRemoveBannerMenuItem]]"
+							text="[[localize('removeBanner')]]"
+							on-d2l-menu-item-select="_toggleCourseBanner">
+						</d2l-menu-item>
+						<d2l-menu-item
+							id="change-image-button"
+							hidden$="[[!_showChangeImageMenuItem]]"
+							text="[[localize('changeImage')]]"
+							on-d2l-menu-item-select="_launchCourseTileImageSelector">
+						</d2l-menu-item>
+					</d2l-menu>
+				</d2l-dropdown-menu>
+			</d2l-dropdown>
 			<div class="loading-overlay">
 				<d2l-loading-spinner size="100"></d2l-loading-spinner>
 				<div class="icon-container">
@@ -121,7 +119,22 @@
 					}
 				},
 				_shouldRefreshCourseImage: Boolean, // whether or not to refresh course image after getting org info
-				_nextImage: Object // when changing the banner image, the next image to show
+				_nextImage: Object, // when changing the banner image, the next image to show
+				_showDropdown: {
+					type: Boolean,
+					value: false,
+					computed: '_computeShowDropdown(_showRemoveBannerMenuItem, _showChangeImageMenuItem)'
+				},
+				_showChangeImageMenuItem: {
+					type: Boolean,
+					value: false,
+					computed: '_computeShowMenuItem(_changeImageUrl)'
+				},
+				_showRemoveBannerMenuItem: {
+					type: Boolean,
+					value: false,
+					computed: '_computeShowMenuItem(_removeBannerUrl)'
+				}
 			},
 			behaviors: [
 				D2L.PolymerBehaviors.ImageBanner.LocalizeBehavior,
@@ -161,13 +174,20 @@
 				this.$$('button').focus();
 			},
 			_getOrganizationInfo: function() {
-				window.d2lfetch
+				return window.d2lfetch
 					.fetch(new Request(this.organizationUrl, {
 						headers: new Headers({
 							Accept: 'application/vnd.siren+json'
 						})
 					}))
-					.then(this._onOrganizationResponse.bind(this));
+					.then(function(response) {
+						if (response.ok) {
+							return response.json();
+						}
+						return Promise.reject(response.status + response.statusText);
+					})
+					.then(this._onOrganizationResponse.bind(this))
+					.catch(this._onFetchError.bind(this));
 			},
 			_onChangeImageLowerThreshold: function() {
 				this.$$('d2l-basic-image-selector').loadMore(this.$['image-selector-threshold']);
@@ -177,32 +197,32 @@
 			},
 			_onSetCourseImage: function(e) {
 				var org = this._parseSiren(e.detail.organization);
-				if (!org.getLinkByRel) { return; }
+				var orgSelfLink = (org.getLinkByRel('self') || {}).href || '';
 
-				var orgSelfLink = (org.getLinkByRel('self') || {}).href || '',
-					urlPosition = orgSelfLink.indexOf(this.organizationUrl);
+				if (orgSelfLink !== this.organizationUrl) {
+					return;
+				}
 
-				if (urlPosition === (orgSelfLink.length - this.organizationUrl.length)) {
-					switch (e.detail.status) {
-						case 'set':
-							if (e.detail.image) {
-								var newImageHref = this._getDefaultImageLink(e.detail.image);
-								var overlayContent = this.$.overlayContent;
-								this.toggleClass('change-image-loading', true, overlayContent);
-								// load the image while the loading spinner runs to that we have it when the spinner ends
-								// NOTE: if this needs optimization, we can wait for the image's onload to play the success animation
-								this._nextImage = e.detail.image;
-								var imagePreloader = document.createElement('img');
-								imagePreloader.setAttribute('src', newImageHref);
-							}
+				switch (e.detail.status) {
+					case 'set':
+						if (!e.detail.image) {
 							break;
-						case 'success':
-							this._displaySetImageResult(true);
-							break;
-						case 'failure':
-							this._displaySetImageResult(false);
-							break;
-					}
+						}
+						var newImageHref = this._getDefaultImageLink(e.detail.image);
+						var overlayContent = this.$.overlayContent;
+						this.toggleClass('change-image-loading', true, overlayContent);
+						// load the image while the loading spinner runs to that we have it when the spinner ends
+						// NOTE: if this needs optimization, we can wait for the image's onload to play the success animation
+						this._nextImage = e.detail.image;
+						var imagePreloader = document.createElement('img');
+						imagePreloader.setAttribute('src', newImageHref);
+						break;
+					case 'success':
+						this._displaySetImageResult(true);
+						break;
+					case 'failure':
+						this._displaySetImageResult(false);
+						break;
 				}
 			},
 			_onSimpleOverlayClosed: function() {
@@ -253,69 +273,51 @@
 			_parseSiren: function(entity) {
 				return window.D2L.Hypermedia.Siren.Parse(entity);
 			},
-			_showDropdown: function(removeBannerAction, changeImageAction) {
-				return !!removeBannerAction || !!changeImageAction;
+			_computeShowDropdown: function(showRemove, showChange) {
+				return showRemove || showChange;
 			},
-			_onCourseImageResponse: function(response) {
-				var self = this;
+			_computeShowMenuItem: function(url) {
+				return !!url;
+			},
+			_onCourseImageResponse: function(courseImage) {
+				this._nextImage = this._parseSiren(courseImage);
+				this._displaySetImageResult(true, true);
+			},
+			_onOrganizationResponse: function(organization) {
+				var organizationEntity = this._parseSiren(organization);
 
-				if (!response.ok) {
-					self._displaySetImageResult(false);
-					return;
+				this._organization = organizationEntity;
+
+				this._addPerfMark('org-response.parsed');
+				this._addPerfMeasure('ready-to-org-response-parsed', 'ready', 'org-response.parsed');
+
+				if (organizationEntity && organizationEntity.properties) {
+					this._courseName = organizationEntity.properties.name;
 				}
 
-				response
-					.json()
-					.then(function(bodyAsJson) {
-						self._nextImage = self._parseSiren(bodyAsJson);
-						self._displaySetImageResult(true, true);
-					});
-			},
-			_onOrganizationResponse: function(response) {
-				var self = this;
-
-				if (!response.ok) {
-					return;
+				this._removeBannerUrl = (organizationEntity.getActionByName('remove-homepage-banner') || {}).href;
+				this._changeImageUrl = (organizationEntity.getActionByName('set-catalog-image') || {}).href;
+				if (!this.hasChangeImage) {
+					this._changeImageUrl = null;
 				}
+				if (this._removeBannerUrl || this._changeImageUrl) {
+					Polymer.dom(this.$.courseName).classList.add('menu-exists');
+				}
+				var offeringLink = organizationEntity && organizationEntity.getLinkByRel(/course-offering-info-page/);
+				this._courseOfferingInfoLink = offeringLink && offeringLink.href;
+				var placeholder = 'COURSE_OFFERING_INFORMATION';
+				var splitText = this.localize('bannerRemoved', 'placeholder', placeholder).split(placeholder);
+				this._optBackInStart = splitText[0];
+				this._optBackInEnd = splitText[1];
 
-				response
-					.json()
-					.then(function(bodyAsJson) {
-						var organization = self._parseSiren(bodyAsJson);
+				Polymer.RenderStatus.afterNextRender(this, function() {
+					this._addPerfMark('org-response.rendered');
+					this._addPerfMeasure('ready-to-org-response-displayed', 'ready', 'org-response.rendered');
+				});
 
-						self._organization = organization;
-
-						self._addPerfMark('org-response.parsed');
-						self._addPerfMeasure('ready-to-org-response-parsed', 'ready', 'org-response.parsed');
-
-						if (organization && organization.properties) {
-							self._courseName = organization.properties.name;
-						}
-
-						self._removeBannerUrl = (organization.getActionByName('remove-homepage-banner') || {}).href;
-						self._changeImageUrl = (organization.getActionByName('set-catalog-image') || {}).href;
-						if (!self.hasChangeImage) {
-							self._changeImageUrl = null;
-						}
-						if (self._removeBannerUrl || self._changeImageUrl) {
-							Polymer.dom(self.$.courseName).classList.add('menu-exists');
-						}
-						var offeringLink = organization && organization.getLinkByRel(/course-offering-info-page/);
-						self._courseOfferingInfoLink = offeringLink && offeringLink.href;
-						var placeholder = 'COURSE_OFFERING_INFORMATION';
-						var splitText = self.localize('bannerRemoved', 'placeholder', placeholder).split(placeholder);
-						self._optBackInStart = splitText[0];
-						self._optBackInEnd = splitText[1];
-
-						Polymer.RenderStatus.afterNextRender(self, function() {
-							self._addPerfMark('org-response.rendered'); // eslint-disable-line no-invalid-this
-							self._addPerfMeasure('ready-to-org-response-displayed', 'ready', 'org-response.rendered'); // eslint-disable-line no-invalid-this
-						});
-
-						if (self._shouldRefreshCourseImage) {
-							self._refreshCourseImage(organization.getSubEntityByClass('course-image').href);
-						}
-					});
+				if (this._shouldRefreshCourseImage) {
+					this._refreshCourseImage(organization.getSubEntityByClass('course-image').href);
+				}
 			},
 			_refreshCourseImage: function(courseImageApiUrl) {
 				window.d2lfetch
@@ -324,48 +326,54 @@
 							Accept: 'application/vnd.siren+json'
 						})
 					}))
+					.then(function(response) {
+						if (response.ok) {
+							return response.json();
+						} else {
+							this._displaySetImageResult(false);
+						}
+					}.bind(this))
 					.then(this._onCourseImageResponse.bind(this));
 			},
 			_toggleCourseBanner: function() {
 				var url = this._addBannerUrl || this._removeBannerUrl;
 				Polymer.dom(this.$.overlayContent).classList.add('loading-overlay-shown');
 
-				if (url) {
-					window.d2lfetch
-						.fetch(new Request(url, {
-							method: 'PUT',
-							headers: new Headers({
-								Accept: 'application/vnd.siren+json',
-								'Content-Type': 'application/x-www-form-urlencoded'
-							}),
-							body: 'showCourseBanner=' + (url === this._addBannerUrl)
-						}))
-						.then(this._onToggleBannerResponse.bind(this))
-						.catch(this._onToggleBannerError.bind(this));
-				}
-			},
-			_onToggleBannerResponse: function(response) {
-				var self = this;
-				if (!response.ok) {
-					return Promise.reject(response.status + response.statusText);
+				if (!url) {
+					return;
 				}
 
-				return response
-					.json()
-					.then(function(bodyAsJson) {
-						var organization = self._parseSiren(bodyAsJson) || {};
-						self._addBannerUrl = (organization.getActionByName('add-homepage-banner') || {}).href;
-						self._removeBannerUrl = (organization.getActionByName('remove-homepage-banner') || {}).href;
-
-						self._showBannerRemovedAlert = !!self._addBannerUrl;
-						if (self._addBannerUrl) {
-							self._showAlert(true);
-						} else if (self._removeBannerUrl) {
-							self._showAlert(false);
+				return window.d2lfetch
+					.fetch(new Request(url, {
+						method: 'PUT',
+						headers: new Headers({
+							Accept: 'application/vnd.siren+json',
+							'Content-Type': 'application/x-www-form-urlencoded'
+						}),
+						body: 'showCourseBanner=' + (url === this._addBannerUrl)
+					}))
+					.then(function(response) {
+						if (response.ok) {
+							return response.json();
 						}
-					});
+						return Promise.reject(response.status + response.statusText);
+					})
+					.then(this._onToggleBannerResponse.bind(this))
+					.catch(this._onFetchError.bind(this));
 			},
-			_onToggleBannerError: function() {
+			_onToggleBannerResponse: function(organization) {
+				var organizationEntity = this._parseSiren(organization) || {};
+				this._addBannerUrl = (organizationEntity.getActionByName('add-homepage-banner') || {}).href;
+				this._removeBannerUrl = (organizationEntity.getActionByName('remove-homepage-banner') || {}).href;
+
+				this._showBannerRemovedAlert = !!this._addBannerUrl;
+				if (this._addBannerUrl) {
+					this._showAlert(true);
+				} else if (this._removeBannerUrl) {
+					this._showAlert(false);
+				}
+			},
+			_onFetchError: function() {
 				this._showBannerErrorAlert = true;
 				this._removeBannerUrl = null;
 				var placeholder = 'REFRESH_PAGE';
