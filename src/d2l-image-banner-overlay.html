@@ -22,7 +22,7 @@
 					<h1 id="courseName">[[_courseName]]</h1>
 				</div>
 			</div>
-			<template is="dom-if" if="{{_showDropdown(_removeBannerAction, _changeImageAction)}}" restamp="true">
+			<template is="dom-if" if="[[_showDropdown(_removeBannerUrl, _changeImageUrl)]]">
 				<d2l-dropdown>
 					<button	class="menu-item no-tap-interaction d2l-dropdown-opener" aria-label$="[[localize('bannerSettings')]]">
 						<div class="elipsis-icon-container">
@@ -31,13 +31,13 @@
 					</button>
 					<d2l-dropdown-menu id="overflow-dropdown">
 						<d2l-menu label$="[[localize('bannerSettings')]]">
-							<template is="dom-if" if="{{_removeBannerAction}}" restamp="true">
+							<template is="dom-if" if="[[_removeBannerUrl]]">
 								<d2l-menu-item id="opt-out-button"
 									text="[[localize('removeBanner')]]"
 									on-d2l-menu-item-select="_toggleCourseBanner">
 								</d2l-menu-item>
 							</template>
-							<template is="dom-if" if="{{_changeImageAction}}" restamp="true">
+							<template is="dom-if" if="[[_changeImageUrl]]">
 								<d2l-menu-item id="change-image-button"
 									text="[[localize('changeImage')]]"
 									on-d2l-menu-item-select="_launchCourseTileImageSelector">
@@ -56,8 +56,8 @@
 		</div>
 		<d2l-simple-overlay
 			id="basic-image-selector-overlay"
-			title-name="{{localize('changeImage')}}"
-			close-simple-overlay-alt-text="{{localize('closeSimpleOverlayAltText')}}"
+			title-name="[[localize('changeImage')]]"
+			close-simple-overlay-alt-text="[[localize('closeSimpleOverlayAltText')]]"
 			with-backdrop>
 			<iron-scroll-threshold
 				id="image-selector-threshold"
@@ -101,8 +101,9 @@
 					reflectToAttribute: true
 				},
 				_courseName: String, // the name to display in the main text area of the overlay
-				_removeBannerAction: String, // a siren action to be executed when the remove banner menu option is clicked
-				_addBannerAction: String, // a siren action to be executed when the Undo option is clicked on the alert
+				_removeBannerUrl: String, // the URL of the siren action to be executed when the remove banner menu option is clicked
+				_addBannerUrl: String, // the URL of the siren action to be executed when the Undo option is clicked on the alert
+				_changeImageUrl: String, // the URL of the siren action to be executed to set a course image catalog image for a course
 				_optBackInStart: String, // the first portion of the localized text to display in the alert when the banner has been removed
 				_optBackInEnd: String, // the last portion of the localized text to display in the alert when the banner has been removed
 				_organization: Object, // The organization Entity, fetched by the course tile when the `enrollment` Entity is changed
@@ -291,12 +292,12 @@
 							self._courseName = organization.properties.name;
 						}
 
-						self._removeBannerAction = (organization.getActionByName('remove-homepage-banner') || {}).href;
-						self._changeImageAction = (organization.getActionByName('set-catalog-image') || {}).href;
+						self._removeBannerUrl = (organization.getActionByName('remove-homepage-banner') || {}).href;
+						self._changeImageUrl = (organization.getActionByName('set-catalog-image') || {}).href;
 						if (!self.hasChangeImage) {
-							self._changeImageAction = null;
+							self._changeImageUrl = null;
 						}
-						if (self._removeBannerAction || self._changeImageAction) {
+						if (self._removeBannerUrl || self._changeImageUrl) {
 							Polymer.dom(self.$.courseName).classList.add('menu-exists');
 						}
 						var offeringLink = organization && organization.getLinkByRel(/course-offering-info-page/);
@@ -326,18 +327,18 @@
 					.then(this._onCourseImageResponse.bind(this));
 			},
 			_toggleCourseBanner: function() {
-				var relevantAction = this._addBannerAction || this._removeBannerAction;
+				var url = this._addBannerUrl || this._removeBannerUrl;
 				Polymer.dom(this.$.overlayContent).classList.add('loading-overlay-shown');
 
-				if (relevantAction) {
+				if (url) {
 					window.d2lfetch
-						.fetch(new Request(relevantAction, {
+						.fetch(new Request(url, {
 							method: 'PUT',
 							headers: new Headers({
 								Accept: 'application/vnd.siren+json',
 								'Content-Type': 'application/x-www-form-urlencoded'
 							}),
-							body: 'showCourseBanner=' + (relevantAction === this._addBannerAction)
+							body: 'showCourseBanner=' + (url === this._addBannerUrl)
 						}))
 						.then(this._onToggleBannerResponse.bind(this))
 						.catch(this._onToggleBannerError.bind(this));
@@ -353,20 +354,20 @@
 					.json()
 					.then(function(bodyAsJson) {
 						var organization = self._parseSiren(bodyAsJson) || {};
-						self._addBannerAction = (organization.getActionByName('add-homepage-banner') || {}).href;
-						self._removeBannerAction = (organization.getActionByName('remove-homepage-banner') || {}).href;
+						self._addBannerUrl = (organization.getActionByName('add-homepage-banner') || {}).href;
+						self._removeBannerUrl = (organization.getActionByName('remove-homepage-banner') || {}).href;
 
-						self._showBannerRemovedAlert = !!self._addBannerAction;
-						if (self._addBannerAction) {
+						self._showBannerRemovedAlert = !!self._addBannerUrl;
+						if (self._addBannerUrl) {
 							self._showAlert(true);
-						} else if (self._removeBannerAction) {
+						} else if (self._removeBannerUrl) {
 							self._showAlert(false);
 						}
 					});
 			},
 			_onToggleBannerError: function() {
 				this._showBannerErrorAlert = true;
-				this._removeBannerAction = null;
+				this._removeBannerUrl = null;
 				var placeholder = 'REFRESH_PAGE';
 				var splitText = this.localize('somethingWentWrong', 'placeholder', placeholder).split(placeholder);
 				this._errorAlertStart = splitText[0];
