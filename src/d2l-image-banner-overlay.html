@@ -324,6 +324,7 @@
 
 				if (this._shouldRefreshCourseImage) {
 					this._refreshCourseImage(organization.getSubEntityByClass('course-image').href);
+					this._refreshCourseImage(this._parseSiren(organization).getSubEntityByClass('course-image').href);
 				}
 			},
 			_refreshCourseImage: function(courseImageApiUrl) {
