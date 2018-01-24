@@ -179,7 +179,6 @@
 				});
 
 				if (this._organization) {
-					headerOptions.append('pragma', 'no-cache');
 					headerOptions.append('cache-control', 'no-cache');
 				}
 
@@ -269,7 +268,7 @@
 
 				if (forceImgRefresh) {
 					var separator = imageSrc.split('?')[1] ? '&' : '?';
-					imageSrc = imageSrc + separator + new Date().getTime();
+					imageSrc = imageSrc + separator + 'timestamp=' + new Date().getTime();
 				}
 
 				if (bannerImage && imageSrc) {
@@ -326,7 +325,7 @@
 				});
 
 				if (this._shouldRefreshCourseImage) {
-					this._refreshCourseImage(this._parseSiren(organization).getSubEntityByClass('course-image').href);
+					this._refreshCourseImage(organizationEntity.getSubEntityByClass('course-image').href);
 				}
 			},
 			_refreshCourseImage: function(courseImageApiUrl) {
