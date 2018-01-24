@@ -267,11 +267,14 @@
 				var bannerImage = document.querySelector('.d2l-course-banner .d2l-course-banner-image');
 				var imageSrc = this._getDefaultImageLink(image);
 
-				imageSrc = forceImgRefresh ? imageSrc + '#' + new Date().getTime() : imageSrc;
+				if (forceImgRefresh) {
+					var separator = imageSrc.split('?')[1] ? '&' : '?';
+					imageSrc = imageSrc + separator + new Date().getTime();
+				}
 
 				if (bannerImage && imageSrc) {
-					bannerImage.src = imageSrc;
 					bannerImage.srcset = '';
+					bannerImage.src = imageSrc;
 				}
 			},
 			_getDefaultImageLink: function(image) {
