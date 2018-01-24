@@ -174,11 +174,17 @@
 				this.$$('button').focus();
 			},
 			_getOrganizationInfo: function() {
+				var headerOptions = new Headers({
+					Accept: 'application/vnd.siren+json'
+				});
+
+				if (this._organization) {
+					headerOptions.append('cache-control', 'no-cache');
+				}
+
 				return window.d2lfetch
 					.fetch(new Request(this.organizationUrl, {
-						headers: new Headers({
-							Accept: 'application/vnd.siren+json'
-						})
+						headers: headerOptions
 					}))
 					.then(function(response) {
 						if (response.ok) {
@@ -260,11 +266,14 @@
 				var bannerImage = document.querySelector('.d2l-course-banner .d2l-course-banner-image');
 				var imageSrc = this._getDefaultImageLink(image);
 
-				imageSrc = forceImgRefresh ? imageSrc + '#' + new Date().getTime() : imageSrc;
+				if (forceImgRefresh) {
+					var separator = imageSrc.split('?')[1] ? '&' : '?';
+					imageSrc = imageSrc + separator + 'timestamp=' + new Date().getTime();
+				}
 
 				if (bannerImage && imageSrc) {
-					bannerImage.src = imageSrc;
 					bannerImage.srcset = '';
+					bannerImage.src = imageSrc;
 				}
 			},
 			_getDefaultImageLink: function(image) {
@@ -316,7 +325,7 @@
 				});
 
 				if (this._shouldRefreshCourseImage) {
-					this._refreshCourseImage(organization.getSubEntityByClass('course-image').href);
+					this._refreshCourseImage(organizationEntity.getSubEntityByClass('course-image').href);
 				}
 			},
 			_refreshCourseImage: function(courseImageApiUrl) {
