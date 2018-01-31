@@ -1,10 +1,11 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../d2l-alert/d2l-alert.html">
-<link rel="import" href="../../d2l-fetch/d2l-fetch.html">
 <link rel="import" href="../../d2l-dropdown/d2l-dropdown.html">
 <link rel="import" href="../../d2l-dropdown/d2l-dropdown-menu.html">
+<link rel="import" href="../../d2l-fetch/d2l-fetch.html">
 <link rel="import" href="../../d2l-icons/d2l-icons.html">
 <link rel="import" href="../../d2l-image-selector/d2l-basic-image-selector.html">
+<link rel="import" href="../../d2l-link/d2l-link.html">
 <link rel="import" href="../../d2l-loading-spinner/d2l-loading-spinner.html">
 <link rel="import" href="../../d2l-organization-hm-behavior/d2l-organization-hm-behavior.html">
 <link rel="import" href="../../d2l-simple-overlay/d2l-simple-overlay.html">
@@ -73,7 +74,7 @@
 			button-text="[[localize('undo')]]"
 			has-close-button="true"
 			role="alert">
-			<span>[[_optBackInStart]]</span><a is="d2l-link" href$="[[_courseOfferingInfoLink]]">[[localize('courseOfferingInformation')]]</a><span>[[_optBackInEnd]]</span>
+			<span>[[_optBackInStart]]</span><d2l-link href$="[[_courseOfferingInfoLink]]">[[localize('courseOfferingInformation')]]</d2l-link><span>[[_optBackInEnd]]</span>
 		</d2l-alert>
 		<d2l-alert
 			id="errorAlert"
@@ -81,7 +82,7 @@
 			has-close-button="true"
 			role="alert"
 			type="error">
-			<span>[[_errorAlertStart]]</span><a is="d2l-link" href="javascript:window.location.reload(true)">[[localize('refreshAndTryAgain')]]</a><span>[[_errorAlertEnd]]</span>
+			<span>[[_errorAlertStart]]</span><d2l-link href="javascript:window.location.reload(true)">[[localize('refreshAndTryAgain')]]</d2l-link><span>[[_errorAlertEnd]]</span>
 		</d2l-alert>
 	</template>
 	<script src="https://s.brightspace.com/lib/siren-parser/6.1.0/siren-parser-global.js"></script>
