@@ -101,7 +101,7 @@ describe('d2l-image-banner-overlay', function() {
 				ok: true,
 				json: function() { return Promise.resolve(organizationEntity); }
 			}));
-		component.organizationUrl = 'http://example.com';
+		component.organizationUrl = 'http://example.com/';
 
 		return component._getOrganizationInfo().then(function() {
 			expect(stub).to.have.been.called;

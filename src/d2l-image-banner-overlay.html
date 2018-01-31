@@ -148,7 +148,9 @@
 			},
 			attached: function() {
 				this.$['image-selector-threshold'].scrollTarget = this.$['basic-image-selector-overlay'].scrollRegion;
-				this._getOrganizationInfo();
+				if (this.organizationUrl) {
+					this._getOrganizationInfo();
+				}
 			},
 			ready: function() {
 				this._addPerfMark('ready');
@@ -174,6 +176,7 @@
 				this.$$('button').focus();
 			},
 			_getOrganizationInfo: function() {
+
 				var headerOptions = new Headers({
 					Accept: 'application/vnd.siren+json'
 				});
