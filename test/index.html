@@ -1,8 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+		<script src="../../promise-polyfill/Promise.min.js"></script>
+		<script src="../../fetch/fetch.js"></script>
 		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
 	</head>
@@ -11,7 +13,7 @@
 			'use strict';
 			// Load and run all tests (.html, .js):
 			WCT.loadSuites([
-				'./d2l-image-banner-overlay.html'
+				'd2l-image-banner-overlay.html'
 			]);
 		</script>
 	</body>
