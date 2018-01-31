@@ -12,7 +12,7 @@
     "banner"
   ],
   "homepage": "https://github.com/Brightspace/d2l-image-banner-overlay",
-  "main": "d2l-course-banner-overlay.html",
+  "main": "d2l-image-banner-overlay.html",
   "private": true,
   "ignore": [
     "demo",
