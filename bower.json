@@ -15,7 +15,7 @@
   "main": "d2l-course-banner-overlay.html",
   "private": true,
   "ignore": [
-    "demo"
+    "demo",
     "test",
     ".editorconfig",
     ".eslintrc.json",
