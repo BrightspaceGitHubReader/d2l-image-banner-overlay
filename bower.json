@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "fetch": "whatwg-fetch#^2.0.3",
-    "promise-polyfill": "^1.1.4",
+    "promise-polyfill": "PolymerLabs/promise-polyfill#^1.0.1",
     "web-component-tester": "^6.4.0"
   },
   "resolutions": {
