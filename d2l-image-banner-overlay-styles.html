@@ -5,31 +5,31 @@
 	<template>
 		<style>
 			:host {
-				position: absolute;
 				height: 100%;
-				width: 100%;
-				top: 0;
 				left: 0;
-				z-index: 1;
-				@apply --d2l-body-standard-text;
 				word-wrap: break-word; /* IE/Edge */
 				overflow-wrap: break-word; /* replaces 'word-wrap' in Firefox, Chrome, Safari */
+				position: absolute;
+				top: 0;
+				width: 100%;
+				z-index: 1;
+				@apply --d2l-body-standard-text;
 			}
 			:host[image-selector-open] {
 				z-index: 1000;
 			}
 
 			.d2l-image-banner-overlay-content {
-				overflow: hidden;
-				opacity: 0;
-				width: 100%;
 				height: 100%;
+				opacity: 0;
+				overflow: hidden;
+				width: 100%;
 			}
 
 			.d2l-image-banner-overlay-content-shown {
-				animation-name: shown;
 				animation-duration: 1.2s;
 				animation-fill-mode: forwards;
+				animation-name: shown;
 			}
 
 			@keyframes shown {
@@ -38,13 +38,13 @@
 			}
 
 			.d2l-image-banner-course-name {
-				position: absolute;
-				bottom: 0;
-				width: 100%;
 				background: linear-gradient(rgba(0,0,0,0), #000 120%);
-				padding-top: 3.5rem;
+				bottom: 0;
 				max-height: 100%;
+				padding-top: 3.5rem;
+				position: absolute;
 				transform: scale3d(1,1,1);
+				width: 100%;
 			}
 
 			@supports (-webkit-line-clamp: 2) {
@@ -55,16 +55,16 @@
 			}
 
 			#courseName {
-				color: var(--d2l-color-white);
-				margin-top: 0;
 				box-sizing: border-box;
+				color: var(--d2l-color-white);
 				-webkit-line-clamp: 2;
 				-webkit-box-orient: vertical;
 				display: -webkit-box;
+				margin-top: 0;
 				overflow: hidden;
-				pointer-events: none;
 				padding-top: 0;
 				padding-bottom: 0;
+				pointer-events: none;
 				@apply --d2l-heading-1;
 			}
 
@@ -85,8 +85,8 @@
 				}
 
 				:host-context([dir='rtl']) #courseName.menu-exists {
-					padding-right: 0;
 					padding-left: 50px;
+					padding-right: 0;
 				}
 
 				#courseName.menu-exists {
@@ -103,10 +103,10 @@
 			}
 
 			d2l-dropdown {
-				right: 0;
-				position: absolute;
-				padding-top: 30px;
 				padding-bottom: 0;
+				padding-top: 30px;
+				position: absolute;
+				right: 0;
 			}
 
 			:host-context([dir='rtl']) d2l-dropdown {
@@ -115,8 +115,8 @@
 			}
 
 			:host-context([dir='rtl']) #courseName.menu-exists {
-				padding-right: 0;
 				padding-left: 40px;
+				padding-right: 0;
 			}
 
 			#courseName.menu-exists {
@@ -124,23 +124,23 @@
 			}
 
 			d2l-dropdown > button {
-				color: #fff;
 				background: rgba(0,0,0,.5);
 				border: none;
 				border-radius: 5px;
-				float: left;
-				transition: color .5s,background .5s;
+				color: #fff;
 				cursor: pointer;
-				width: 35px;
-				height: 35px;
 				display: flex;
+				float: left;
 				justify-content: center;
+				transition: color .5s,background .5s;
+				height: 35px;
+				width: 35px;
 			}
 
 			d2l-dropdown > button:hover,
 			d2l-dropdown > button:focus {
 				color: rgba(255,255,255,1);
-			    background: #006fbf;
+				background: #006fbf;
 			}
 
 			.elipsis-icon {
@@ -148,19 +148,19 @@
 			}
 
 			.elipsis-icon-container {
-				height: 100%;
-				width: 100%;
-				display: flex;
-				justify-content: center;
 				align-items: center;
+				display: flex;
+				height: 100%;
+				justify-content: center;
+				width: 100%;
 			}
 
 			.d2l-image-banner-course-name-container {
 				height: 100%;
-				width: 100%;
 				overflow: hidden;
-				position: absolute;
 				pointer-events: none;
+				position: absolute;
+				width: 100%;
 			}
 
 			d2l-alert {
@@ -168,33 +168,33 @@
 			}
 
 			.loading-overlay {
-				opacity: 0;
-				height: 100%;
-				width: 100%;
 				align-items: center;
+				display: flex;
+				height: 100%;
 				justify-content: center;
+				left: 0;
+				opacity: 0;
 				pointer-events: none;
 				position: absolute;
-				display: flex;
 				top: 0;
-				left: 0;
+				width: 100%;
 			}
 
 			.loading-overlay-shown .loading-overlay {
+				background-color: rgba(0, 0, 0, 0.4);
 				opacity: 1;
 				transition: opacity 0.5s 0.5s;
-				background-color: rgba(0, 0, 0, 0.4);
 			}
 
 			d2l-loading-spinner {
-				display: none;
-				z-index: 4;
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
 				bottom: 0;
+				display: none;
+				left: 0;
 				margin: auto;
+				position: absolute;
+				right: 0;
+				top: 0;
+				z-index: 4;
 			}
 
 			.change-image-loading d2l-loading-spinner,
@@ -215,21 +215,21 @@
 			.change-image-loading .icon-container,
 			.change-image-success .icon-container,
 			.change-image-failure .icon-container {
-				height: 80px;
-				width: 80px;
-				display: flex;
-				justify-content: center;
 				align-items: center;
-				border-style: none;
-				border-radius: 100px;
 				background-color: white;
+				border-radius: 100px;
+				border-style: none;
+				bottom: 0;
+				display: flex;
+				height: 80px;
+				justify-content: center;
+				left: 0;
+				margin: auto;
 				overflow: hidden;
 				position: absolute;
-				top: 0;
-				left: 0;
 				right: 0;
-				bottom: 0;
-				margin: auto;
+				top: 0;
+				width: 80px;
 			}
 
 			@keyframes inner {
@@ -247,13 +247,13 @@
 			}
 
 			.checkmark {
-				display: none;
 				color: var(--d2l-color-olivine);
+				display: none;
 			}
 
 			.fail-icon {
-				display: none;
 				color: #ffce51;
+				display: none;
 			}
 
 			.change-image-success,
@@ -264,29 +264,29 @@
 
 			.change-image-success .checkmark,
 			.change-image-failure .fail-icon {
-				display: flex;
-				animation-name: inner;
 				animation-duration: 1s;
 				animation-fill-mode: forwards;
+				animation-name: inner;
+				display: flex;
 			}
 
 			.change-image-success .icon-container,
 			.change-image-failure .icon-container {
-				animation-name: container;
 				animation-duration: 1s;
 				animation-fill-mode: forwards;
+				animation-name: container;
 			}
 
 			.change-image-loading .loading-overlay,
 			.change-image-success .loading-overlay,
 			.change-image-failure .loading-overlay {
-				width: 100%;
-				height: 100%;
-				display: block;
-				opacity: 1;
-				z-index: 2;
 				background-color: rgba(0, 0, 0, 0.4);
+				display: block;
+				height: 100%;
+				opacity: 1;
 				position: relative;
+				width: 100%;
+				z-index: 2;
 			}
 		</style>
 	</template>
