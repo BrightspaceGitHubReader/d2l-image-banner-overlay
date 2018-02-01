@@ -10,10 +10,9 @@
 	</head>
 	<body>
 		<script>
-			'use strict';
-			// Load and run all tests (.html, .js):
 			WCT.loadSuites([
-				'd2l-image-banner-overlay.html'
+				'd2l-image-banner-overlay.html?wc-shadydom=true',
+				'd2l-image-banner-overlay.html?dom=shadow&lazyRegister=true&useNativeCSSProperties=true'
 			]);
 		</script>
 	</body>
