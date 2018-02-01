@@ -1,75 +1,110 @@
 <!doctype html>
-<html lang="en-ca">
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-		<title>d2l-image-banner-overlay-demo</title>
+		<title>d2l-image-banner-overlay demo</title>
 		<script src="../../fetch/fetch.js"></script>
+		<script src="../../sinonjs/sinon.js"></script>
 		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 		<link rel="import" href="../../promise-polyfill/promise-polyfill-lite.html"></link>
+		<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+		<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
 		<link rel="import" href="../../d2l-typography/d2l-typography.html">
 		<link rel="import" href="../d2l-image-banner-overlay.html">
-		<style is="custom-style" include="d2l-typography"></style>
+		<link rel="import" href="demo-image-banner-container.html">
+		<custom-style>
+			<style is="custom-style" include="demo-pages-shared-styles"></style>
+		</custom-style>
+		<custom-style include="d2l-typography">
+			<style is="custom-style" include="d2l-typography"></style>
+		</custom-style>
 		<style>
-			body {
-				margin: 0;
+			html {
+				font-size: 20px;
 			}
-
-			.d2l-course-banner-container {
-				position: relative;
-				height: 200px;
-				overflow: hidden;
-				max-width: 100%;
-			}
-
-			.d2l-course-banner-container > .d2l-course-banner {
-				display: flex;
-				width: 1170px;
-			    align-items: center;
-				overflow: hidden;
-				position: absolute;
-			    top: 0;
-			    left: 0;
-			    right: 0;
-			    bottom: 0;
-				background: lightblue;
-			}
-
-			.d2l-course-banner-image {
-				width: 100%;
-				height: 100%;
-			    transition: opacity 1s;
-				background: -moz-linear-gradient(-45deg, #49c0f0 8%, #235d72 23%, #ffffff 41%, #a33299 52%, #040709 74%, #9540ce 90%, #2f7f19 100%); /* FF3.6-15 */
-				background: -webkit-linear-gradient(-45deg, #49c0f0 8%,#235d72 23%,#ffffff 41%,#a33299 52%,#040709 74%,#9540ce 90%,#2f7f19 100%); /* Chrome10-25,Safari5.1-6 */
-				background: linear-gradient(135deg, #49c0f0 8%,#235d72 23%,#ffffff 41%,#a33299 52%,#040709 74%,#9540ce 90%,#2f7f19 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			}
-
-			@media (max-width: 1170px) {
-				.d2l-course-banner-image {
-					margin-left: calc((100vw - 1170px) / 2);
-				}
-			}
-			@media (min-width: 1170px) {
-				.d2l-course-banner-container {
-					margin: 0 auto;
-					width: 1170px;
-				}
-			}
-
-
 		</style>
+		<script>
+			var organizationEntity = {
+				'class': ['active', 'course-offering'],
+				'properties': {
+					'name': 'Actuators & Power Electronics',
+					'code': 'MTE320',
+					'startDate': null,
+					'endDate': null,
+					'isActive': true
+				},
+				'entities': [{
+					'class': ['relative-uri'],
+					'rel': ['item', 'https://api.brightspace.com/rels/organization-homepage'],
+					'properties': {
+						'path': '/d2l/home/121768'
+					}
+				}, {
+					'class': ['course-image'],
+					'rel': ['https://api.brightspace.com/rels/organization-image'],
+					'href': 'https://lms.com/organizations/121768/image?version=%2fimages%2fb7105a50-bd33-48d9-8c5a-39d3e6a98c43'
+				}],
+				'links': [{
+					'rel': ['self'],
+					'href': 'https://lms.com/organizations/121768'
+				}, {
+					'rel': ['https://api.brightspace.com/rels/course-offering-info-page'],
+					'type': 'text/html',
+					'href': 'https://lms.com/d2l/lp/manageCourses/course_offering_info_viewedit.d2l?ou=121768'
+				}],
+				'actions': [{
+					'href': 'https://lms.com/d2l/api/lp/1.9/courses/121768/image',
+					'name': 'set-catalog-image',
+					'method': 'POST',
+					'fields': [{
+						'type': 'text',
+						'name': 'imagePath',
+						'value': ''
+					}]
+				}, {
+					'href': 'https://lms.com/organizations/121768',
+					'name': 'remove-homepage-banner',
+					'method': 'PUT',
+					'fields': [{
+						'type': 'hidden',
+						'name': 'showCourseBanner',
+						'value': false
+					}]
+				}, {
+					'href': 'https://lms.com/organizations/121768',
+					'name': 'add-homepage-banner',
+					'method': 'PUT',
+					'fields': [{
+						'type': 'hidden',
+						'name': 'showCourseBanner',
+						'value': true
+					}]
+				}]
+			};
+			var sandbox = sinon.sandbox.create();
+			window.d2lfetch.fetch = sandbox.stub()
+				.withArgs(sinon.match.has('url', '/default'))
+				.returns(Promise.resolve({
+					ok: true,
+					json: function() {
+						return Promise.resolve(organizationEntity);
+					}
+				}));
+		</script>
 	</head>
 	<body unresolved class="d2l-typography">
-		<main class="max-width">
-			<h1>d2l-image-banner-overlay-demo</h1>
-			<script></script>
+		<div class="vertical-section-container">
 
-			<div class="d2l-course-banner-container">
-				<d2l-image-banner-overlay></d2l-image-banner-overlay>
-				<div class="d2l-course-banner">
-					<div class="d2l-course-banner-image"></div>
-				</div>
-			</div>
-		</main>
+			<h3>Default</h3>
+			<demo-snippet>
+				<template>
+					<demo-image-banner-container>
+						<d2l-image-banner-overlay organization-url="/default"></d2l-image-banner-overlay>
+					</demo-image-banner-container>
+				</template>
+			</demo-snippet>
+
+		</div>
 	</body>
 </html>
