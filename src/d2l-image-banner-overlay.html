@@ -205,6 +205,8 @@
 				this.$['image-selector-threshold'].clearTriggers();
 			},
 			_onSetCourseImage: function(e) {
+				this.$['basic-image-selector-overlay'].close();
+
 				var org = this._parseSiren(e.detail.organization);
 				var orgSelfLink = (org.getLinkByRel('self') || {}).href || '';
 

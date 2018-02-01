@@ -162,6 +162,20 @@ describe('d2l-image-banner-overlay', function() {
 
 				expect(JSON.stringify(component._nextImage)).to.equal('{"foo":"bar"}');
 			});
+
+			it('should close the image-selector overlay', function() {
+				var spy = sandbox.spy(component.$['basic-image-selector-overlay'], 'close');
+
+				component._onSetCourseImage({
+					detail: {
+						status: 'set',
+						organization: {},
+						image: { foo: 'bar' }
+					}
+				});
+
+				expect(spy).to.have.been.called;
+			});
 		});
 	});
 
