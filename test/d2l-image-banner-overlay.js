@@ -91,7 +91,8 @@ describe('d2l-image-banner-overlay', function() {
 	});
 
 	it('should exist on the page', function() {
-		expect(component.$$('.d2l-image-banner-overlay')).to.exist;
+		expect(component).to.exist;
+		expect(component.is).to.equal('d2l-image-banner-overlay');
 	});
 
 	it('should fetch organization information from organizationUrl', function() {
