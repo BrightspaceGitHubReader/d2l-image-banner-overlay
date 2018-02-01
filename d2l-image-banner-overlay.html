@@ -152,13 +152,17 @@
 				if (this.organizationUrl) {
 					this._getOrganizationInfo();
 				}
+				this.listen(document.body, 'set-course-image', '_onSetCourseImage');
+			},
+			detached: function() {
+				this.unlisten(document.body, 'set-course-image', '_onSetCourseImage');
 			},
 			ready: function() {
 				this._addPerfMark('ready');
 				this._showBannerRemovedAlert = false;
 				this._showBannerErrorAlert = false;
 				Polymer.dom(this.$.overlayContent).classList.add('d2l-image-banner-overlay-content-shown');
-				document.body.addEventListener('set-course-image', this._onSetCourseImage.bind(this));
+
 			},
 			courseImageUploadCompleted: function(success) {
 				var overlayContent = this.$.overlayContent;
