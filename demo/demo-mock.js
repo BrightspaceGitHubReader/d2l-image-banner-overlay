@@ -57,14 +57,15 @@ var organizationEntity = {
 		}]
 	}]
 };
-var sandbox = sinon.sandbox.create();
-window.d2lfetch = window.d2lfetch || {};
-window.d2lfetch.fetch = sandbox.stub()
-	.withArgs(sinon.match.has('url', '/default'))
+window.d2lfetch = window.d2lfetch || { fetch: function() {} };
+var stub = sinon.stub(window.d2lfetch, 'fetch');
+stub.withArgs(sinon.match.has('url', sinon.match(/default$/)))
 	.returns(Promise.resolve({
 		ok: true,
 		json: function() {
 			return Promise.resolve(organizationEntity);
 		}
 	}));
+stub.withArgs(sinon.match.has('url', sinon.match(/error$/)))
+	.returns(Promise.resolve(new Error()));
 })();
