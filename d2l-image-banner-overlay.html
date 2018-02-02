@@ -8,6 +8,7 @@
 <link rel="import" href="../d2l-link/d2l-link.html">
 <link rel="import" href="../d2l-loading-spinner/d2l-loading-spinner.html">
 <link rel="import" href="../d2l-organization-hm-behavior/d2l-organization-hm-behavior.html">
+<link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
 <link rel="import" href="../d2l-simple-overlay/d2l-simple-overlay.html">
 <link rel="import" href="../iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="d2l-image-banner-overlay-styles.html">
@@ -404,13 +405,17 @@
 			_showAlert: function(show) {
 				Polymer.dom(this.$.overlayContent).classList.remove('loading-overlay-shown');
 
-				// TODO: a couple problems with this
-				// 1. querySelector('.d2l-course-banner-container') won't work if that element is hidden via shadow dom
-				// 2. This is a very leaky abstraction. The fact that these element knows to add
-				//    a CSS class to some arbitrary other element with a CSS class on it isn't great.
-				//    Ideally, it would fire an event, and the other component would be listening for it
-				//    and respond accordingly.
-				var container = document.documentElement.querySelector('.d2l-course-banner-container');
+				// This is a very leaky abstraction. The fact that this element
+				// knows to add a CSS class to some arbitrary other element with
+				// a CSS class on it isn't great.
+				// Ideally, it would fire an event, and the other component
+				// would be listening for it and respond accordingly.
+				var container = D2L.Dom.findComposedAncestor(this.root, function(p) {
+					if (p.classList) {
+						return p.classList.contains('d2l-course-banner-container');
+					}
+					return false;
+				});
 				if (show) {
 					Polymer.dom(this.$.overlayContent).classList.remove('d2l-image-banner-overlay-content-shown');
 					if (container) {
