@@ -209,7 +209,7 @@ describe('d2l-image-banner-overlay', function() {
 
 				return component._getOrganizationInfo().then(function() {
 					expect(window.d2lfetch.fetch).to.have.been.called;
-					expect(component.$$('d2l-dropdown').hasAttribute('hidden')).to.be.true;
+					expect(component.$$('d2l-dropdown-more').hasAttribute('hidden')).to.be.true;
 				});
 			});
 		});
@@ -297,7 +297,7 @@ describe('d2l-image-banner-overlay', function() {
 
 				return component._getOrganizationInfo().then(function() {
 					expect(window.d2lfetch.fetch).to.have.been.called;
-					expect(component.$$('d2l-dropdown').hasAttribute('hidden')).to.equal(!testCase.canChangeImage && !testCase.canRemoveBanner);
+					expect(component.$$('d2l-dropdown-more').hasAttribute('hidden')).to.equal(!testCase.canChangeImage && !testCase.canRemoveBanner);
 					expect(component.$['change-image-button'].hasAttribute('hidden')).to.equal(!testCase.canChangeImage);
 					expect(component.$['opt-out-button'].hasAttribute('hidden')).to.equal(!testCase.canRemoveBanner);
 				});

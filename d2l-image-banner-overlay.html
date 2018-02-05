@@ -1,12 +1,15 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../d2l-alert/d2l-alert.html">
-<link rel="import" href="../d2l-dropdown/d2l-dropdown.html">
 <link rel="import" href="../d2l-dropdown/d2l-dropdown-menu.html">
+<link rel="import" href="../d2l-dropdown/d2l-dropdown-more.html">
 <link rel="import" href="../d2l-fetch/d2l-fetch.html">
+<link rel="import" href="../d2l-icons/d2l-icon.html">
 <link rel="import" href="../d2l-icons/d2l-icons.html">
 <link rel="import" href="../d2l-image-selector/d2l-basic-image-selector.html">
 <link rel="import" href="../d2l-link/d2l-link.html">
 <link rel="import" href="../d2l-loading-spinner/d2l-loading-spinner.html">
+<link rel="import" href="../d2l-menu/d2l-menu.html">
+<link rel="import" href="../d2l-menu/d2l-menu-item.html">
 <link rel="import" href="../d2l-organization-hm-behavior/d2l-organization-hm-behavior.html">
 <link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
 <link rel="import" href="../d2l-simple-overlay/d2l-simple-overlay.html">
@@ -30,13 +33,8 @@ An overlay for course image banners that displays the course name and menu.
 					<h1 id="courseName">[[_courseName]]</h1>
 				</div>
 			</div>
-			<d2l-dropdown hidden$="[[!_showDropdown]]">
-				<button	class="menu-item no-tap-interaction d2l-dropdown-opener" aria-label$="[[localize('bannerSettings')]]">
-					<div class="elipsis-icon-container">
-						<d2l-icon class="elipsis-icon" icon="d2l-tier1:more"></d2l-icon>
-					</div>
-				</button>
-				<d2l-dropdown-menu id="overflow-dropdown">
+			<d2l-dropdown-more hidden$="[[!_showDropdown]]" label="[[localize('bannerSettings')]]">
+				<d2l-dropdown-menu>
 					<d2l-menu label$="[[localize('bannerSettings')]]">
 						<d2l-menu-item
 							id="opt-out-button"
@@ -52,7 +50,7 @@ An overlay for course image banners that displays the course name and menu.
 						</d2l-menu-item>
 					</d2l-menu>
 				</d2l-dropdown-menu>
-			</d2l-dropdown>
+			</d2l-dropdown-more>
 			<div class="loading-overlay">
 				<d2l-loading-spinner size="100"></d2l-loading-spinner>
 				<div class="icon-container">
