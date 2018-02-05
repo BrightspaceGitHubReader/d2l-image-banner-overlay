@@ -28,8 +28,9 @@ node_modules/
 dist/
 test/coverage/
 coverage/
-bower_components
-
+bower_components/
+bower_components-1.x/
+bower-1.x.json
 
 ### Windows ###
 # Windows image file caches

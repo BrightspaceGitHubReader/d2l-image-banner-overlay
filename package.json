@@ -3,10 +3,10 @@
   "description": "Brightspace Course Image Banner Overlay",
   "private": true,
   "scripts": {
-    "postinstall": "polymer install",
+    "postinstall": "polymer install --variants",
     "test": "npm run lint && polymer test --skip-plugin sauce",
     "lint": "npm run lint:js && npm run lint:wc",
-    "lint:js": "eslint --ext .js,.html .",
+    "lint:js": "eslint --ext .js,.html --ignore-pattern /bower_components-1.x/* .",
     "lint:wc": "polymer lint"
   },
   "homepage": "https://github.com/Brightspace/d2l-image-banner-overlay",

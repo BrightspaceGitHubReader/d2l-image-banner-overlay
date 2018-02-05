@@ -3,6 +3,8 @@ describe('d2l-image-banner-overlay', function() {
 		organizationEntity,
 		sandbox;
 
+	var animFrame = requestAnimationFrame || setTimeout;
+
 	function setupFetchStub(options) {
 		if (!options.canChangeImage) {
 			organizationEntity.actions = organizationEntity.actions.filter(function(action) {
@@ -91,7 +93,8 @@ describe('d2l-image-banner-overlay', function() {
 	});
 
 	it('should exist on the page', function() {
-		expect(component.$$('.d2l-image-banner-overlay')).to.exist;
+		expect(component).to.exist;
+		expect(component.is).to.equal('d2l-image-banner-overlay');
 	});
 
 	it('should fetch organization information from organizationUrl', function() {
@@ -113,24 +116,39 @@ describe('d2l-image-banner-overlay', function() {
 	});
 
 	describe('event listeners', function() {
-		[
+
+		var eventTestCases = [
 			{ name: 'd2l-alert-button-pressed', observer: '_onAlertButtonPressed' },
 			{ name: 'd2l-alert-close', observer: '_onAlertClosed' },
 			{ name: 'clear-image-scroll-threshold', observer: '_onClearImageScrollThreshold' },
 			{ name: 'd2l-simple-overlay-closed', observer: '_onSimpleOverlayClosed' },
 			{ name: 'set-course-image', observer: '_onSetCourseImage' }
-		].forEach(function(testCase) {
+		];
+
+		eventTestCases.forEach(function(testCase) {
 			it('should listen for "' + testCase.name + '" events', function(done) {
 				sinon.stub(component, testCase.observer)
-					.returns(Promise.resolve().then(function() {
-						done();
-					}));
-
+					.returns(Promise.resolve().then(done));
 				window.dispatchEvent(new CustomEvent(testCase.name));
 			});
 		});
 
+		eventTestCases.forEach(function(testCase) {
+			it('should remove listener listen for "' + testCase.name + '" when detached', function(done) {
+				var spy = sinon.stub(component, testCase.observer);
+				Polymer.dom(component.parentNode).removeChild(component);
+				animFrame(function() {
+					document.body.dispatchEvent(new CustomEvent(testCase.name));
+					animFrame(function() {
+						expect(spy.notCalled).to.be.true;
+						done();
+					});
+				});
+			});
+		});
+
 		describe('set-course-image', function() {
+
 			['success', 'failure'].forEach(function(eventName) {
 				it('should set the ' + eventName + ' icon on a "' + eventName + '" event', function() {
 					component.organizationUrl = '';
@@ -177,6 +195,7 @@ describe('d2l-image-banner-overlay', function() {
 				expect(spy).to.have.been.called;
 			});
 		});
+
 	});
 
 	describe('hasChangeImage', function() {

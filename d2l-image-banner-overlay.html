@@ -1,19 +1,26 @@
-<link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../d2l-alert/d2l-alert.html">
-<link rel="import" href="../../d2l-fetch/d2l-fetch.html">
-<link rel="import" href="../../d2l-dropdown/d2l-dropdown.html">
-<link rel="import" href="../../d2l-dropdown/d2l-dropdown-menu.html">
-<link rel="import" href="../../d2l-icons/d2l-icons.html">
-<link rel="import" href="../../d2l-image-selector/d2l-basic-image-selector.html">
-<link rel="import" href="../../d2l-loading-spinner/d2l-loading-spinner.html">
-<link rel="import" href="../../d2l-organization-hm-behavior/d2l-organization-hm-behavior.html">
-<link rel="import" href="../../d2l-simple-overlay/d2l-simple-overlay.html">
-<link rel="import" href="../../iron-scroll-threshold/iron-scroll-threshold.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../d2l-alert/d2l-alert.html">
+<link rel="import" href="../d2l-dropdown/d2l-dropdown.html">
+<link rel="import" href="../d2l-dropdown/d2l-dropdown-menu.html">
+<link rel="import" href="../d2l-fetch/d2l-fetch.html">
+<link rel="import" href="../d2l-icons/d2l-icons.html">
+<link rel="import" href="../d2l-image-selector/d2l-basic-image-selector.html">
+<link rel="import" href="../d2l-link/d2l-link.html">
+<link rel="import" href="../d2l-loading-spinner/d2l-loading-spinner.html">
+<link rel="import" href="../d2l-organization-hm-behavior/d2l-organization-hm-behavior.html">
+<link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
+<link rel="import" href="../d2l-simple-overlay/d2l-simple-overlay.html">
+<link rel="import" href="../iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="d2l-image-banner-overlay-styles.html">
 <link rel="import" href="localize-behavior.html">
+<!--
+`d2l-image-banner-overlay`
+An overlay for course image banners that displays the course name and menu.
+@demo demo/index.html
+-->
 
 <dom-module id="d2l-image-banner-overlay">
-	<template>
+	<template strip-whitespace>
 		<style include="d2l-image-banner-overlay-styles"></style>
 
 		<div id="overlayContent" class="d2l-image-banner-overlay-content">
@@ -73,7 +80,7 @@
 			button-text="[[localize('undo')]]"
 			has-close-button="true"
 			role="alert">
-			<span>[[_optBackInStart]]</span><a is="d2l-link" href$="[[_courseOfferingInfoLink]]">[[localize('courseOfferingInformation')]]</a><span>[[_optBackInEnd]]</span>
+			<span>[[_optBackInStart]]</span><d2l-link href$="[[_courseOfferingInfoLink]]">[[localize('courseOfferingInformation')]]</d2l-link><span>[[_optBackInEnd]]</span>
 		</d2l-alert>
 		<d2l-alert
 			id="errorAlert"
@@ -81,7 +88,7 @@
 			has-close-button="true"
 			role="alert"
 			type="error">
-			<span>[[_errorAlertStart]]</span><a is="d2l-link" href="javascript:window.location.reload(true)">[[localize('refreshAndTryAgain')]]</a><span>[[_errorAlertEnd]]</span>
+			<span>[[_errorAlertStart]]</span><d2l-link href="javascript:window.location.reload(true)">[[localize('refreshAndTryAgain')]]</d2l-link><span>[[_errorAlertEnd]]</span>
 		</d2l-alert>
 	</template>
 	<script src="https://s.brightspace.com/lib/siren-parser/6.1.0/siren-parser-global.js"></script>
@@ -89,11 +96,28 @@
 		Polymer({
 			is: 'd2l-image-banner-overlay',
 			properties: {
-				courseImageUploadCb: Function, // callback function for d2l-image-selector
-				organizationUrl: String, // url used to request organization information
-				imageCatalogLocation: String, // URL that is called by the widget to fetch results from the course image catalog
-				hasChangeImage: Boolean, // feature flag
-				imageSelectorOpen: { // Temporarily set z-index to 100 so that iron-overlay can work (it is set to 999 at body level)
+				/**
+				 * Callback function for d2l-image-selector
+				 */
+				courseImageUploadCb: Function,
+				/**
+				 * Url used to request organization information
+				 */
+				organizationUrl: String,
+				/**
+				 * URL that is called by the widget to fetch results from the
+				 * course image catalog
+				 */
+				imageCatalogLocation: String,
+				/**
+				 * Whether the "Change Image" menu item is available
+				 */
+				hasChangeImage: Boolean,
+				/**
+				 * Hack: temporarily set z-index to 100 so that iron-overlay can
+				 * work (it is set to 999 at body level).
+				 */
+				imageSelectorOpen: {
 					type: Boolean,
 					value: false,
 					reflectToAttribute: true
@@ -151,13 +175,17 @@
 				if (this.organizationUrl) {
 					this._getOrganizationInfo();
 				}
+				this.listen(document.body, 'set-course-image', '_onSetCourseImage');
+			},
+			detached: function() {
+				this.unlisten(document.body, 'set-course-image', '_onSetCourseImage');
 			},
 			ready: function() {
 				this._addPerfMark('ready');
 				this._showBannerRemovedAlert = false;
 				this._showBannerErrorAlert = false;
 				Polymer.dom(this.$.overlayContent).classList.add('d2l-image-banner-overlay-content-shown');
-				document.body.addEventListener('set-course-image', this._onSetCourseImage.bind(this));
+
 			},
 			courseImageUploadCompleted: function(success) {
 				var overlayContent = this.$.overlayContent;
@@ -172,6 +200,9 @@
 				}
 				this.focus();
 			},
+			/**
+			 * Places focus inside the overlay.
+			 */
 			focus: function() {
 				this.$$('button').focus();
 			},
@@ -399,12 +430,27 @@
 			_showAlert: function(show) {
 				Polymer.dom(this.$.overlayContent).classList.remove('loading-overlay-shown');
 
+				// This is a very leaky abstraction. The fact that this element
+				// knows to add a CSS class to some arbitrary other element with
+				// a CSS class on it isn't great.
+				// Ideally, it would fire an event, and the other component
+				// would be listening for it and respond accordingly.
+				var container = D2L.Dom.findComposedAncestor(this.root, function(p) {
+					if (p.classList) {
+						return p.classList.contains('d2l-course-banner-container');
+					}
+					return false;
+				});
 				if (show) {
 					Polymer.dom(this.$.overlayContent).classList.remove('d2l-image-banner-overlay-content-shown');
-					document.documentElement.querySelector('.d2l-course-banner-container').classList.add('showing-alert');
+					if (container) {
+						container.classList.add('showing-alert');
+					}
 				} else {
 					Polymer.dom(this.$.overlayContent).classList.add('d2l-image-banner-overlay-content-shown');
-					document.documentElement.querySelector('.d2l-course-banner-container').classList.remove('showing-alert');
+					if (container) {
+						container.classList.remove('showing-alert');
+					}
 				}
 			},
 			_onAlertButtonPressed: function(e) {

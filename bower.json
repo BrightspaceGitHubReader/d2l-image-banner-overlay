@@ -12,7 +12,7 @@
     "banner"
   ],
   "homepage": "https://github.com/Brightspace/d2l-image-banner-overlay",
-  "main": "d2l-course-banner-overlay.html",
+  "main": "d2l-image-banner-overlay.html",
   "private": true,
   "ignore": [
     "demo",
@@ -28,28 +28,43 @@
     "wct.conf.json"
   ],
   "dependencies": {
-    "d2l-alert": "^2.0.1",
-    "d2l-colors": "^2.4.0",
-    "d2l-dropdown": "^5.2.1",
+    "d2l-alert": "^3.0.1",
+    "d2l-colors": "^3.1.2",
+    "d2l-dropdown": "^6.0.7",
     "d2l-fetch": "Brightspace/d2l-fetch#^1.8.0",
-    "d2l-icons": "^3.7.0",
-    "d2l-image-selector": "git://github.com/Brightspace/image-selector#^2.2.0",
-    "d2l-link": "^3.5.1",
-    "d2l-loading-spinner": "^5.0.5",
+    "d2l-icons": "^4.6.1",
+    "d2l-image-selector": "git://github.com/Brightspace/image-selector#^3.0.0",
+    "d2l-link": "^4.0.1",
+    "d2l-loading-spinner": "^6.0.2",
     "d2l-localize-behavior": "^1.1.0",
-    "d2l-menu": "^0.3.7",
+    "d2l-menu": "^1.0.4",
     "d2l-organization-hm-behavior": "git://github.com/Brightspace/organization-hm-behavior.git#^2.0.0",
-    "d2l-simple-overlay": "git://github.com/Brightspace/simple-overlay#^1.1.2",
-    "d2l-typography": "^5.5.0",
-    "iron-scroll-threshold": "PolymerElements/iron-scroll-threshold#^1.0.3",
-    "polymer": "^1.11.2"
+    "d2l-polymer-behaviors": "^1.2.0",
+    "d2l-simple-overlay": "git://github.com/Brightspace/simple-overlay#^2.0.0",
+    "d2l-typography": "^6.1.2",
+    "iron-scroll-threshold": "PolymerElements/iron-scroll-threshold#^2.0.0",
+    "polymer": "1 - 2"
   },
   "devDependencies": {
     "fetch": "whatwg-fetch#^2.0.3",
-    "promise-polyfill": "PolymerLabs/promise-polyfill#^1.0.1",
-    "web-component-tester": "^6.5.0"
+    "promise-polyfill": "PolymerLabs/promise-polyfill#^2.0.1",
+    "web-component-tester": "^6.5.0",
+    "iron-component-page": "^2.0.0",
+    "iron-demo-helpers": "^2.0.0",
+    "iron-test-helpers": "^2.0.0",
+    "sinonjs": "^1.17.1"
+  },
+  "variants": {
+    "1.x": {
+      "dependencies": {
+        "polymer": "^1.11.2"
+      },
+      "resolutions": {
+        "webcomponentsjs": "^0.7.24"
+      }
+    }
   },
   "resolutions": {
-    "webcomponentsjs": "^0.7.24"
+    "webcomponentsjs": "^v1.0.19"
   }
 }
