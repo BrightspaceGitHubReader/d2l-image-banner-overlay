@@ -42,7 +42,8 @@
     "d2l-simple-overlay": "git://github.com/Brightspace/simple-overlay#^1.1.2",
     "d2l-typography": "^5.5.0",
     "iron-scroll-threshold": "PolymerElements/iron-scroll-threshold#^1.0.3",
-    "polymer": "^1.11.2"
+    "polymer": "^1.11.2",
+    "siren-parser-import": "Brightspace/siren-parser-import#^6.5.0"
   },
   "devDependencies": {
     "fetch": "whatwg-fetch#^2.0.3",
