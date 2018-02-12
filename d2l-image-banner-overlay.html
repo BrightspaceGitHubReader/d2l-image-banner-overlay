@@ -120,6 +120,19 @@ An overlay for course image banners that displays the course name and menu.
 					value: false,
 					reflectToAttribute: true
 				},
+				departmentBannerFlag: {
+					type: Boolean,
+					value: false,
+					reflectToAttribute: true
+				},
+				/**
+				* A boolean reflecting the focus state of the element
+				*/
+				focused: {
+					type: Boolean,
+					value: false,
+					reflectToAttribute: true
+				},
 				_courseName: String, // the name to display in the main text area of the overlay
 				_removeBannerUrl: String, // the URL of the siren action to be executed when the remove banner menu option is clicked
 				_addBannerUrl: String, // the URL of the siren action to be executed when the Undo option is clicked on the alert
@@ -166,9 +179,13 @@ An overlay for course image banners that displays the course name and menu.
 				'd2l-alert-button-pressed': '_onAlertButtonPressed',
 				'd2l-alert-closed': '_onAlertClosed',
 				'clear-image-scroll-threshold': '_onClearImageScrollThreshold',
-				'd2l-simple-overlay-closed': '_onSimpleOverlayClosed'
+				'd2l-simple-overlay-closed': '_onSimpleOverlayClosed',
+				'focus': '_onFocus',
+				'blur': '_onBlur'
 			},
 			attached: function() {
+				this.addEventListener('focus', this._onFocus, true);
+				this.addEventListener('blur', this._onBlur, true);
 				this.$['image-selector-threshold'].scrollTarget = this.$['basic-image-selector-overlay'].scrollRegion;
 				if (this.organizationUrl) {
 					this._getOrganizationInfo();
@@ -176,6 +193,8 @@ An overlay for course image banners that displays the course name and menu.
 				this.listen(document.body, 'set-course-image', '_onSetCourseImage');
 			},
 			detached: function() {
+				this.removeEventListener('focus', this._onFocus);
+				this.removeEventListener('blur', this._onBlur);
 				this.unlisten(document.body, 'set-course-image', '_onSetCourseImage');
 			},
 			ready: function() {
@@ -477,6 +496,13 @@ An overlay for course image banners that displays the course name and menu.
 						'd2l.image-banner-overlay.' + endName
 					);
 				}
+			},
+			_onFocus: function() {
+				this.focused = true;
+			},
+			_onBlur: function() {
+				this.focused = false;
+				if (this.$$('d2l-dropdown-menu').hasAttribute('opened')) this.$$('d2l-dropdown-more').toggleOpen();
 			}
 		});
 	</script>

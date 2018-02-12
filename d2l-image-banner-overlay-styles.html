@@ -104,9 +104,11 @@
 
 			d2l-dropdown-more {
 				padding-bottom: 0;
-				padding-top: 30px;
+				padding-top: 0px;
 				position: absolute;
 				right: 0;
+				opacity: 0;
+				transition: opacity 0.25s, padding-top 0.25s;
 			}
 			d2l-dropdown-more[hidden] {
 				display: none;
@@ -114,6 +116,13 @@
 			:host-context([dir='rtl']) d2l-dropdown-more {
 				left: 0;
 				right: auto;
+			}
+
+			:host(:hover) d2l-dropdown-more,
+			:host([focused]) d2l-dropdown-more,
+			:host:not([department-banner-flag]) d2l-dropdown-more {
+				opacity: 1;
+				padding-top: 30px;
 			}
 
 			:host-context([dir='rtl']) #courseName.menu-exists {
