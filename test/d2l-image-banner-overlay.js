@@ -303,5 +303,35 @@ describe('d2l-image-banner-overlay', function() {
 				});
 			});
 		});
+
+		describe('when the department-banner-flag is off', () => {
+			it('should appear without hover or focus', () => {
+				component.departmentBannerFlag = false;
+				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('padding-top')).to.equal('30px');
+				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('opacity')).to.equal('1');
+			});
+
+			it('should appear with focus/hover too', () => {
+				component.departmentBannerFlag = false;
+				component._onFocus();
+				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('padding-top')).to.equal('30px');
+				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('opacity')).to.equal('1');
+			});
+		});
+
+		describe('when the department-banner-flag is on', () => {
+			it('should not appear without hover or focus', () => {
+				component.departmentBannerFlag = true;
+				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('padding-top')).to.equal('0px');
+				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('opacity')).to.equal('0');
+			});
+
+			it('should appear on focus/hover', () => {
+				component.departmentBannerFlag = true;
+				component._onFocus();
+				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('padding-top')).to.equal('10px');
+				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('opacity')).to.equal('1');
+			});
+		});
 	});
 });
