@@ -12,6 +12,7 @@
 <link rel="import" href="../d2l-menu/d2l-menu-item.html">
 <link rel="import" href="../d2l-organization-hm-behavior/d2l-organization-hm-behavior.html">
 <link rel="import" href="../d2l-polymer-behaviors/d2l-dom.html">
+<link rel="import" href="../d2l-polymer-behaviors/d2l-focusable-behavior.html">
 <link rel="import" href="../d2l-simple-overlay/d2l-simple-overlay.html">
 <link rel="import" href="../iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../siren-parser-import/siren-parser.html">
@@ -33,7 +34,10 @@ An overlay for course image banners that displays the course name and menu.
 					<h1 id="courseName">[[_courseName]]</h1>
 				</div>
 			</div>
-			<d2l-dropdown-more hidden$="[[!_showDropdown]]" label="[[localize('bannerSettings')]]">
+			<d2l-dropdown-more
+				class="d2l-focusable"
+				hidden$="[[!_showDropdown]]"
+				label="[[localize('bannerSettings')]]">
 				<d2l-dropdown-menu>
 					<d2l-menu label$="[[localize('bannerSettings')]]">
 						<d2l-menu-item
@@ -173,7 +177,8 @@ An overlay for course image banners that displays the course name and menu.
 			},
 			behaviors: [
 				D2L.PolymerBehaviors.ImageBanner.LocalizeBehavior,
-				D2L.PolymerBehaviors.Hypermedia.OrganizationHMBehavior
+				D2L.PolymerBehaviors.Hypermedia.OrganizationHMBehavior,
+				D2L.PolymerBehaviors.FocusableBehavior
 			],
 			listeners: {
 				'd2l-alert-button-pressed': '_onAlertButtonPressed',
@@ -218,12 +223,6 @@ An overlay for course image banners that displays the course name and menu.
 					this._displaySetImageResult(false);
 				}
 				this.focus();
-			},
-			/**
-			 * Places focus inside the overlay.
-			 */
-			focus: function() {
-				this.$$('button').focus();
 			},
 			_getOrganizationInfo: function() {
 
