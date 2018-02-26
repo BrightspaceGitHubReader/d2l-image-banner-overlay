@@ -503,6 +503,14 @@ An overlay for course image banners that displays the course name and menu.
 			},
 			_onBlur: function() {
 				this.focused = false;
+				setTimeout(function() {
+					if (!D2L.Dom.isComposedAncestor(this, D2L.Dom.Focus.getComposedActiveElement())) {
+						this._closeDropdown();
+					}
+				}.bind(this), 0);
+			},
+			_closeDropdown: function() {
+				if (this.$$('d2l-dropdown-menu').hasAttribute('opened')) this.$$('d2l-dropdown-more').toggleOpen();
 			}
 		});
 	</script>
