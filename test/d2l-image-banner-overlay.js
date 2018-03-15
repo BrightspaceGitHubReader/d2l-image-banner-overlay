@@ -333,5 +333,33 @@ describe('d2l-image-banner-overlay', function() {
 				expect(window.getComputedStyle(component.$$('d2l-dropdown-more'), null).getPropertyValue('opacity')).to.equal('1');
 			});
 		});
+
+		describe('when the homepage-manage-menu-flag is on', () => {
+			it('should show the alert message which references the homepage manage menu', () => {
+				component.homepageManageMenuFlag = true;
+				component._showBannerRemovedAlert = true;
+				expect(component.$$('#bannerRemovedMenuAlertText').hasAttribute('hidden')).to.equal(false);
+			});
+
+			it('should not show the alart message with a link to course offering page', () => {
+				component.homepageManageMenuFlag = true;
+				component._showBannerRemovedAlert = true;
+				expect(component.$$('#bannerRemovedAlertText').hasAttribute('hidden')).to.equal(true);
+			});
+		});
+
+		describe('when the homepage-manage-menu-flag is off', () => {
+			it('should not show the alert message which references the homepage manage menu', () => {
+				component.homepageManageMenuFlag = false;
+				component._showBannerRemovedAlert = true;
+				expect(component.$$('#bannerRemovedMenuAlertText').hasAttribute('hidden')).to.equal(true);
+			});
+
+			it('should show the alart message with a link to course offering page', () => {
+				component.homepageManageMenuFlag = false;
+				component._showBannerRemovedAlert = true;
+				expect(component.$$('#bannerRemovedAlertText').hasAttribute('hidden')).to.equal(false);
+			});
+		});
 	});
 });
