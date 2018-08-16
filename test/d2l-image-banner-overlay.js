@@ -85,7 +85,6 @@ describe('d2l-image-banner-overlay', function() {
 		};
 		sandbox = sinon.sandbox.create();
 		component = fixture('d2l-image-banner-overlay-fixture');
-		component.hasChangeImage = true;
 	});
 
 	afterEach(function() {
@@ -196,23 +195,6 @@ describe('d2l-image-banner-overlay', function() {
 			});
 		});
 
-	});
-
-	describe('hasChangeImage', function() {
-		[
-			{ name: 'hide change image button when false', canChangeImage: true, hasChangeImage: false },
-			{ name: 'not override a user\'s lack of permissions when true', canChangeImage: false, hasChangeImage: true }
-		].forEach(function(testCase) {
-			it('should ' + testCase.name, function() {
-				setupFetchStub({ canChangeImage: testCase.canChangeImage });
-				component.hasChangeImage = testCase.hasChangeImage;
-
-				return component._getOrganizationInfo().then(function() {
-					expect(window.d2lfetch.fetch).to.have.been.called;
-					expect(component.$$('d2l-dropdown-more').hasAttribute('hidden')).to.be.true;
-				});
-			});
-		});
 	});
 
 	describe('_toggleCourseBanner', function() {
