@@ -28,7 +28,7 @@ An overlay for course image banners that displays the course name and menu.
 	<template strip-whitespace>
 		<style include="d2l-image-banner-overlay-styles"></style>
 
-		<div id="overlayContent" class="d2l-image-banner-overlay-content">
+		<div id="overlayContent" class="d2l-image-banner-overlay-content d2l-visible-on-ancestor-target">
 			<div class="d2l-image-banner-course-name-container">
 				<div class="d2l-image-banner-course-name">
 					<h1 id="courseName">[[_courseName]]</h1>
@@ -37,7 +37,9 @@ An overlay for course image banners that displays the course name and menu.
 			<d2l-dropdown-more
 				class="d2l-focusable"
 				hidden$="[[!_showDropdown]]"
-				label="[[localize('bannerSettings')]]">
+				label="[[localize('bannerSettings')]]"
+				translucent
+				visible-on-ancestor>
 				<d2l-dropdown-menu>
 					<d2l-menu label$="[[localize('bannerSettings')]]">
 						<d2l-menu-item
@@ -125,20 +127,13 @@ An overlay for course image banners that displays the course name and menu.
 				},
 				departmentBannerFlag: {
 					type: Boolean,
+					observer: '_onDepartmentBannerFlag',
 					value: false,
 					reflectToAttribute: true
 				},
 				homepageManageMenuFlag: {
 					type: Boolean,
 					value: false
-				},
-				/**
-				* A boolean reflecting the focus state of the element
-				*/
-				focused: {
-					type: Boolean,
-					value: false,
-					reflectToAttribute: true
 				},
 				_courseName: String, // the name to display in the main text area of the overlay
 				_removeBannerUrl: String, // the URL of the siren action to be executed when the remove banner menu option is clicked
@@ -188,12 +183,10 @@ An overlay for course image banners that displays the course name and menu.
 				'd2l-alert-closed': '_onAlertClosed',
 				'clear-image-scroll-threshold': '_onClearImageScrollThreshold',
 				'd2l-simple-overlay-closed': '_onSimpleOverlayClosed',
-				'focus': '_onFocus',
 				'blur': '_onBlur'
 			},
 			attached: function() {
 				Polymer.RenderStatus.afterNextRender(this, function() {
-					this.addEventListener('focus', this._onFocus, true);
 					this.addEventListener('blur', this._onBlur, true);
 				}.bind(this));
 				this.$['image-selector-threshold'].scrollTarget = this.$['basic-image-selector-overlay'].scrollRegion;
@@ -203,7 +196,6 @@ An overlay for course image banners that displays the course name and menu.
 				this.listen(document.body, 'set-course-image', '_onSetCourseImage');
 			},
 			detached: function() {
-				this.removeEventListener('focus', this._onFocus, true);
 				this.removeEventListener('blur', this._onBlur, true);
 				this.unlisten(document.body, 'set-course-image', '_onSetCourseImage');
 			},
@@ -255,6 +247,14 @@ An overlay for course image banners that displays the course name and menu.
 			},
 			_onClearImageScrollThreshold: function() {
 				this.$['image-selector-threshold'].clearTriggers();
+			},
+			_onDepartmentBannerFlag: function(newValue) {
+				var opener = Polymer.dom(this.root).querySelector('d2l-dropdown-more');
+				if (newValue) {
+					opener.setAttribute('visible-on-ancestor', 'visible-on-ancestor');
+				} else {
+					opener.removeAttribute('visible-on-ancestor');
+				}
 			},
 			_onSetCourseImage: function(e) {
 				this.$['basic-image-selector-overlay'].close();
@@ -503,11 +503,7 @@ An overlay for course image banners that displays the course name and menu.
 					);
 				}
 			},
-			_onFocus: function() {
-				this.focused = true;
-			},
 			_onBlur: function() {
-				this.focused = false;
 				setTimeout(function() {
 					if (!D2L.Dom.isComposedAncestor(this, D2L.Dom.Focus.getComposedActiveElement())) {
 						this._closeDropdown();
