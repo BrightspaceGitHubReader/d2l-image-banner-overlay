@@ -110,7 +110,6 @@ describe('d2l-image-banner-overlay', function() {
 			expect(component._courseName).to.equal('Actuators & Power Electronics');
 			expect(component._removeBannerUrl).to.equal('https://lms.com/organizations/121768');
 			expect(component._changeImageUrl).to.equal('https://lms.com/d2l/api/lp/1.9/courses/121768/image');
-			expect(component._courseOfferingInfoLink).to.equal('https://lms.com/d2l/lp/manageCourses/course_offering_info_viewedit.d2l?ou=121768');
 		});
 	});
 
@@ -286,46 +285,18 @@ describe('d2l-image-banner-overlay', function() {
 			});
 		});
 
-		describe('when the department-banner-flag is off', () => {
-			it('should appear without hover or focus', () => {
-				component.departmentBannerFlag = false;
-				expect(component.$$('d2l-dropdown-more').hasAttribute('visible-on-ancestor')).to.equal(false);
-			});
-		});
-
 		describe('when the department-banner-flag is on', () => {
 			it('should not appear without hover or focus', () => {
-				component.departmentBannerFlag = true;
 				expect(component.$$('d2l-dropdown-more').hasAttribute('visible-on-ancestor')).to.equal(true);
 			});
 		});
 
 		describe('when the homepage-manage-menu-flag is on', () => {
 			it('should show the alert message which references the homepage manage menu', () => {
-				component.homepageManageMenuFlag = true;
 				component._showBannerRemovedAlert = true;
 				expect(component.$$('#bannerRemovedMenuAlertText').hasAttribute('hidden')).to.equal(false);
 			});
-
-			it('should not show the alart message with a link to course offering page', () => {
-				component.homepageManageMenuFlag = true;
-				component._showBannerRemovedAlert = true;
-				expect(component.$$('#bannerRemovedAlertText').hasAttribute('hidden')).to.equal(true);
-			});
 		});
 
-		describe('when the homepage-manage-menu-flag is off', () => {
-			it('should not show the alert message which references the homepage manage menu', () => {
-				component.homepageManageMenuFlag = false;
-				component._showBannerRemovedAlert = true;
-				expect(component.$$('#bannerRemovedMenuAlertText').hasAttribute('hidden')).to.equal(true);
-			});
-
-			it('should show the alart message with a link to course offering page', () => {
-				component.homepageManageMenuFlag = false;
-				component._showBannerRemovedAlert = true;
-				expect(component.$$('#bannerRemovedAlertText').hasAttribute('hidden')).to.equal(false);
-			});
-		});
 	});
 });

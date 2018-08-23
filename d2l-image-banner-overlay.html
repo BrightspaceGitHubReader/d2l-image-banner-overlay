@@ -85,10 +85,7 @@ An overlay for course image banners that displays the course name and menu.
 			button-text="[[localize('undo')]]"
 			has-close-button="true"
 			role="alert">
-			<div id="bannerRemovedAlertText" hidden$="[[homepageManageMenuFlag]]">
-				<span>[[_optBackInStart]]</span><d2l-link href$="[[_courseOfferingInfoLink]]">[[localize('courseOfferingInformation')]]</d2l-link><span>[[_optBackInEnd]]</span>
-			</div>
-			<span id="bannerRemovedMenuAlertText" hidden$="[[!homepageManageMenuFlag]]">[[localize('bannerRemovedMenu')]]</span>
+			<span id="bannerRemovedMenuAlertText">[[localize('bannerRemovedMenu')]]</span>
 		</d2l-alert>
 		<d2l-alert
 			id="errorAlert"
@@ -125,24 +122,11 @@ An overlay for course image banners that displays the course name and menu.
 					value: false,
 					reflectToAttribute: true
 				},
-				departmentBannerFlag: {
-					type: Boolean,
-					observer: '_onDepartmentBannerFlag',
-					value: false,
-					reflectToAttribute: true
-				},
-				homepageManageMenuFlag: {
-					type: Boolean,
-					value: false
-				},
 				_courseName: String, // the name to display in the main text area of the overlay
 				_removeBannerUrl: String, // the URL of the siren action to be executed when the remove banner menu option is clicked
 				_addBannerUrl: String, // the URL of the siren action to be executed when the Undo option is clicked on the alert
 				_changeImageUrl: String, // the URL of the siren action to be executed to set a course image catalog image for a course
-				_optBackInStart: String, // the first portion of the localized text to display in the alert when the banner has been removed
-				_optBackInEnd: String, // the last portion of the localized text to display in the alert when the banner has been removed
 				_organization: Object, // The organization Entity, fetched by the course tile when the `enrollment` Entity is changed
-				_courseOfferingInfoLink: String, // the url to navigate to if the user wishes to adjust course offering settings, displayed in the alert when the banner has been removed
 				_showBannerRemovedAlert: Boolean, // indicates if the optBackIn alert should be displayed
 				_showBannerErrorAlert: Boolean, // indicates if the "something went wrong alert should be displayed"
 				_errorAlertStart: String, // the first portion of the localized text to display in the alert when something went wrong with removing the banner
@@ -247,14 +231,6 @@ An overlay for course image banners that displays the course name and menu.
 			},
 			_onClearImageScrollThreshold: function() {
 				this.$['image-selector-threshold'].clearTriggers();
-			},
-			_onDepartmentBannerFlag: function(newValue) {
-				var opener = Polymer.dom(this.root).querySelector('d2l-dropdown-more');
-				if (newValue) {
-					opener.setAttribute('visible-on-ancestor', 'visible-on-ancestor');
-				} else {
-					opener.removeAttribute('visible-on-ancestor');
-				}
 			},
 			_onSetCourseImage: function(e) {
 				this.$['basic-image-selector-overlay'].close();
@@ -366,12 +342,6 @@ An overlay for course image banners that displays the course name and menu.
 				if (this._removeBannerUrl || this._changeImageUrl) {
 					Polymer.dom(this.$.courseName).classList.add('menu-exists');
 				}
-				var offeringLink = organizationEntity && organizationEntity.getLinkByRel(/course-offering-info-page/);
-				this._courseOfferingInfoLink = offeringLink && offeringLink.href;
-				var placeholder = 'COURSE_OFFERING_INFORMATION';
-				var splitText = this.localize('bannerRemoved', 'placeholder', placeholder).split(placeholder);
-				this._optBackInStart = splitText[0];
-				this._optBackInEnd = splitText[1];
 
 				Polymer.RenderStatus.afterNextRender(this, function() {
 					this._addPerfMark('org-response.rendered');
