@@ -110,7 +110,6 @@ describe('d2l-image-banner-overlay', function() {
 			expect(component._courseName).to.equal('Actuators & Power Electronics');
 			expect(component._removeBannerUrl).to.equal('https://lms.com/organizations/121768');
 			expect(component._changeImageUrl).to.equal('https://lms.com/d2l/api/lp/1.9/courses/121768/image');
-			expect(component._courseOfferingInfoLink).to.equal('https://lms.com/d2l/lp/manageCourses/course_offering_info_viewedit.d2l?ou=121768');
 		});
 	});
 
