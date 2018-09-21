@@ -54,6 +54,12 @@ An overlay for course image banners that displays the course name and menu.
 							text="[[localize('changeImage')]]"
 							on-d2l-menu-item-select="_launchCourseTileImageSelector">
 						</d2l-menu-item>
+						<d2l-menu-item
+							id="change-banner-title-button"
+							hidden$="[[!canChangeBannerTitle]]"
+							text="Change Banner Title"
+							on-d2l-menu-item-select="_changeBannerTitle">
+						</d2l-menu-item>
 					</d2l-menu>
 				</d2l-dropdown-menu>
 			</d2l-dropdown-more>
@@ -126,6 +132,10 @@ An overlay for course image banners that displays the course name and menu.
 				 * Banner title text to display in the main text area of the overlay
 				 */
 				 bannerTitle: String,
+				/**
+				 * Whether or not the user can change banner title
+				 */
+				 canChangeBannerTitle: Boolean,
 				_removeBannerUrl: String, // the URL of the siren action to be executed when the remove banner menu option is clicked
 				_addBannerUrl: String, // the URL of the siren action to be executed when the Undo option is clicked on the alert
 				_changeImageUrl: String, // the URL of the siren action to be executed to set a course image catalog image for a course
@@ -397,6 +407,12 @@ An overlay for course image banners that displays the course name and menu.
 					})
 					.then(this._onToggleBannerResponse.bind(this))
 					.catch(this._onFetchError.bind(this));
+			},
+			_changeBannerTitle: function() {
+				this.dispatchEvent(new CustomEvent(
+					'd2l-image-banner-overlay-change-banner-title',
+					{bubbles: true, composed: true}
+				));
 			},
 			_onToggleBannerResponse: function(organization) {
 				var organizationEntity = this._parseSiren(organization) || {};
