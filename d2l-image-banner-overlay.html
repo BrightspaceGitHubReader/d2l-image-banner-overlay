@@ -31,7 +31,7 @@ An overlay for course image banners that displays the course name and menu.
 		<div id="overlayContent" class="d2l-image-banner-overlay-content d2l-visible-on-ancestor-target">
 			<div class="d2l-image-banner-course-name-container">
 				<div class="d2l-image-banner-course-name">
-					<h1 id="courseName">[[_courseName]]</h1>
+					<h1 id="bannerTitle">[[bannerTitle]]</h1>
 				</div>
 			</div>
 			<d2l-dropdown-more
@@ -122,7 +122,10 @@ An overlay for course image banners that displays the course name and menu.
 					value: false,
 					reflectToAttribute: true
 				},
-				_courseName: String, // the name to display in the main text area of the overlay
+				/**
+				 * Banner title text to display in the main text area of the overlay
+				 */
+				 bannerTitle: String,
 				_removeBannerUrl: String, // the URL of the siren action to be executed when the remove banner menu option is clicked
 				_addBannerUrl: String, // the URL of the siren action to be executed when the Undo option is clicked on the alert
 				_changeImageUrl: String, // the URL of the siren action to be executed to set a course image catalog image for a course
@@ -333,14 +336,10 @@ An overlay for course image banners that displays the course name and menu.
 				this._addPerfMark('org-response.parsed');
 				this._addPerfMeasure('ready-to-org-response-parsed', 'ready', 'org-response.parsed');
 
-				if (organizationEntity && organizationEntity.properties) {
-					this._courseName = organizationEntity.properties.name;
-				}
-
 				this._removeBannerUrl = (organizationEntity.getActionByName('remove-homepage-banner') || {}).href;
 				this._changeImageUrl = (organizationEntity.getActionByName('set-catalog-image') || {}).href;
 				if (this._removeBannerUrl || this._changeImageUrl) {
-					Polymer.dom(this.$.courseName).classList.add('menu-exists');
+					Polymer.dom(this.$.bannerTitle).classList.add('menu-exists');
 				}
 
 				Polymer.RenderStatus.afterNextRender(this, function() {

@@ -107,7 +107,6 @@ describe('d2l-image-banner-overlay', function() {
 
 		return component._getOrganizationInfo().then(function() {
 			expect(stub).to.have.been.called;
-			expect(component._courseName).to.equal('Actuators & Power Electronics');
 			expect(component._removeBannerUrl).to.equal('https://lms.com/organizations/121768');
 			expect(component._changeImageUrl).to.equal('https://lms.com/d2l/api/lp/1.9/courses/121768/image');
 		});
