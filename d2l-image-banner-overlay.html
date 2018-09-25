@@ -347,7 +347,7 @@ An overlay for course image banners that displays the course name and menu.
 
 				this._removeBannerUrl = (organizationEntity.getActionByName('remove-homepage-banner') || {}).href;
 				this._changeImageUrl = (organizationEntity.getActionByName('set-catalog-image') || {}).href;
-				if (this._removeBannerUrl || this._changeImageUrl || canChangeBannerTitle) {
+				if (this._removeBannerUrl || this._changeImageUrl || this.canChangeBannerTitle) {
 					Polymer.dom(this.$.bannerTitle).classList.add('menu-exists');
 				}
 
