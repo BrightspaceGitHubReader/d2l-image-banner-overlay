@@ -1,161 +1,44 @@
 <link rel="import" href="../d2l-localize-behavior/d2l-localize-behavior.html">
+<link rel="import" href="lang/ar.html">
+<link rel="import" href="lang/de.html">
+<link rel="import" href="lang/en.html">
+<link rel="import" href="lang/es.html">
+<link rel="import" href="lang/fr.html">
+<link rel="import" href="lang/ja.html">
+<link rel="import" href="lang/ko.html">
+<link rel="import" href="lang/nl.html">
+<link rel="import" href="lang/pt.html">
+<link rel="import" href="lang/sv.html">
+<link rel="import" href="lang/tr.html">
+<link rel="import" href="lang/zh-tw.html">
+<link rel="import" href="lang/zh.html">
 
 <script>
-	window.D2L = window.D2L || {};
-	window.D2L.PolymerBehaviors = window.D2L.PolymerBehaviors || {};
-	window.D2L.PolymerBehaviors.ImageBanner = window.D2L.PolymerBehaviors.ImageBanner || {};
+    window.D2L = window.D2L || {};
+    window.D2L.PolymerBehaviors = window.D2L.PolymerBehaviors || {};
+    window.D2L.PolymerBehaviors.ImageBanner = window.D2L.PolymerBehaviors.ImageBanner || {};
 
 	/*
 	 * @polymerBehavior D2L.PolymerBehaviors.ImageBanner.LocalizeBehavior
 	 */
-	D2L.PolymerBehaviors.ImageBanner.LocalizeBehaviorImpl = {
-		properties: {
+    D2L.PolymerBehaviors.ImageBanner.LocalizeBehaviorImpl = {
+        properties: {
 			resources: {
 				value: function() {
 					return {
-						'en': {
-							'removeBanner': 'Remove This Banner',
-							'bannerSettings': 'Banner Settings',
-							'bannerRemoved': 'Banner removed! You can re-enable the banner in {placeholder}.',
-							'undo': 'Undo',
-							'somethingWentWrong': 'Oops! Something went wrong. {placeholder}.',
-							'refreshAndTryAgain': 'Refresh and try again',
-							'changeImage': 'Change Image',
-							'closeSimpleOverlayAltText' : 'Close Dialog',
-							'bannerRemovedMenu': 'Banner removed! You can re-enable the banner using the Homepage menu at the bottom of the screen.'
-						},
-						'ar': {
-							'removeBanner': 'إزالة هذا الشعار',
-							'bannerSettings': 'إعدادات الشعار',
-							'bannerRemoved': 'تمت إزالة الشعار! يمكنك إعادة تمكين الشعار في {placeholder}.',
-							'undo': 'تراجع',
-							'somethingWentWrong': 'عذرًا! حدث خطأ ما. {placeholder}.',
-							'refreshAndTryAgain': 'قم بالتحديث وحاول مرة أخرى',
-							'changeImage': 'تغيير الصورة',
-							'closeSimpleOverlayAltText': 'إغلاق مربع الحوار',
-							'bannerRemovedMenu': 'تمت إزالة الشعار! يمكنك إعادة تمكين الشعار باستخدام قائمة الصفحة الرئيسية في أسفل الشاشة.'
-						},
-						'de': {
-							'removeBanner': 'Dieses Banner entfernen',
-							'bannerSettings': 'Banner-Einstellungen',
-							'bannerRemoved': 'Banner entfernt! Sie können das Banner unter {placeholder} wieder aktivieren.',
-							'undo': 'Rückgängig',
-							'somethingWentWrong': 'Hoppla! Etwas ist schief gelaufen. {placeholder}.',
-							'refreshAndTryAgain': 'Aktualisieren und erneut versuchen.',
-							'changeImage': 'Bild ändern',
-							'closeSimpleOverlayAltText': 'Dialogfeld schließen',
-							'bannerRemovedMenu': 'Banner removed! You can re-enable the banner using the Homepage menu at the bottom of the screen.'
-						},
-						'es': {
-							'removeBanner': 'Eliminar este banner',
-							'bannerSettings': 'Configuración del banner',
-							'bannerRemoved': 'Banner eliminado. Puede volver a habilitar el banner en {placeholder}.',
-							'undo': 'Deshacer',
-							'somethingWentWrong': 'Algo salió mal. {placeholder}.',
-							'refreshAndTryAgain': 'Actualice e inténtelo de nuevo',
-							'changeImage': 'Cambiar imagen',
-							'closeSimpleOverlayAltText': 'Cerrar el cuadro de diálogo',
-							'bannerRemovedMenu': 'Banner quitado. Puede volver a habilitar el banner a través del menú de la página de inicio que se encuentra en la parte inferior de la pantalla.'
-						},
-						'fr': {
-							'removeBanner': 'Supprimer cette bannière',
-							'bannerSettings': 'Paramètres de la bannière',
-							'bannerRemoved': 'Bannière supprimée! Vous pouvez la réactiver dans {placeholder}.',
-							'undo': 'Annuler',
-							'somethingWentWrong': 'Oups! Un problème est survenu. {placeholder}.',
-							'refreshAndTryAgain': 'Actualisez la page et réessayez',
-							'changeImage': 'Modifier l\'image',
-							'closeSimpleOverlayAltText': 'Fermer la boîte de dialogue',
-							'bannerRemovedMenu': 'Bannière supprimée! Vous pouvez la réactiver par l’intermédiaire du menu de la page d’accueil en bas de l’écran.'
-						},
-						'ja': {
-							'removeBanner': 'このバナーを削除',
-							'bannerSettings': 'バナー設定',
-							'bannerRemoved': 'バナーが削除されました。{placeholder} でバナーを再度有効にできます。',
-							'undo': '元に戻す',
-							'somethingWentWrong': '問題が発生しました。{placeholder}。',
-							'refreshAndTryAgain': '更新してから、もう一度お試しください',
-							'changeImage': 'イメージの変更',
-							'closeSimpleOverlayAltText': 'ダイアログを閉じる',
-							'bannerRemovedMenu': 'バナーを削除しました。バナーは、画面下部にあるホームページメニューを使用して再有効化できます。'
-						},
-						'ko': {
-							'removeBanner': '이 배너 제거',
-							'bannerSettings': '배너 설정',
-							'bannerRemoved': '배너가 삭제되었습니다. {placeholder}에서 배너를 다시 활성화할 수 있습니다.',
-							'undo': '실행 취소',
-							'somethingWentWrong': '문제가 발생했습니다. {placeholder}.',
-							'refreshAndTryAgain': '새로 고친 후 다시 시도하십시오.',
-							'changeImage': '이미지 변경',
-							'closeSimpleOverlayAltText': '대화 상자 닫기',
-							'bannerRemovedMenu': '배너가 삭제되었습니다. 화면 하단의 홈페이지 메뉴를 사용하여 배너를 다시 활성화할 수 있습니다.'
-						},
-						'nl': {
-							'removeBanner': 'Deze banner verwijderen',
-							'bannerSettings': 'Bannerinstellingen',
-							'bannerRemoved': 'Banner verwijderd! U kunt de banner in {placeholder} opnieuw inschakelen.',
-							'undo': 'Ongedaan maken',
-							'somethingWentWrong': 'Oeps! Er is iets fout gegaan. {placeholder}.',
-							'refreshAndTryAgain': 'Vernieuw en probeer het opnieuw',
-							'changeImage': 'Afbeelding wijzigen',
-							'closeSimpleOverlayAltText': 'Dialoogvenster sluiten',
-							'bannerRemovedMenu': 'Banner verwijderd! U kunt de banner via het menu Startpagina onder aan het scherm opnieuw inschakelen.'
-						},
-						'pt': {
-							'removeBanner': 'Remover este Banner',
-							'bannerSettings': 'Configurações de Banner',
-							'bannerRemoved': 'Banner removido! Você pode reativar o banner em {placeholder}.',
-							'undo': 'Desfazer',
-							'somethingWentWrong': 'Opa! Algo deu errado. {placeholder}.',
-							'refreshAndTryAgain': 'Atualizar e tentar novamente',
-							'changeImage': 'Alterar imagem',
-							'closeSimpleOverlayAltText': 'Fechar o diálogo',
-							'bannerRemovedMenu': 'Banner removido! Você pode reativar o banner usando o menu Página Inicial, na parte inferior da tela.'
-						},
-						'sv': {
-							'removeBanner': 'Ta bort banner',
-							'bannerSettings': 'Inställningar för banner',
-							'bannerRemoved': 'Banner borttagen. Du återaktiverar den i {placeholder}.',
-							'undo': 'Ångra',
-							'somethingWentWrong': 'Hoppsan! Något gick fel. {placeholder}.',
-							'refreshAndTryAgain': 'Uppdatera och försök igen',
-							'changeImage': 'Ändra bild',
-							'closeSimpleOverlayAltText': 'Stäng dialogruta',
-							'bannerRemovedMenu': 'Banner borttagen! Du kan återaktivera bannern med hjälp av hemsidesmenyn längst ned på skärmen.'
-						},
-						'tr': {
-							'removeBanner': 'Bu Başlığı Sil',
-							'bannerSettings': 'Başlık Ayarları',
-							'bannerRemoved': 'Başlık silindi! {placeholder} konumundan başlığı yeniden etkinleştirebilirsiniz.',
-							'undo': 'Geri Al',
-							'somethingWentWrong': 'Üzgünüz! Bir sorun oluştu. {placeholder}.',
-							'refreshAndTryAgain': 'Yenileyin ve tekrar deneyin',
-							'changeImage': 'Görüntüyü Değiştir',
-							'closeSimpleOverlayAltText': 'İletişim Kutusunu Kapat',
-							'bannerRemovedMenu': 'Başlık kaldırıldı! Ekranın alt kısmındaki Ana sayfa menüsünü kullanarak başlığı yeniden etkinleştirebilirsiniz.'
-						},
-						'zh': {
-							'removeBanner': '删除此标语',
-							'bannerSettings': '标语设置',
-							'bannerRemoved': '标语已删除！您可以在 {placeholder} 中重新启用此标语。',
-							'undo': '撤销',
-							'somethingWentWrong': '抱歉！出现错误。{placeholder}.',
-							'refreshAndTryAgain': '请刷新并重试',
-							'changeImage': '更改图像',
-							'closeSimpleOverlayAltText': '关闭对话框',
-							'bannerRemovedMenu': '横幅已移除！您可以使用屏幕下方的主页按钮重新启动此横幅。'
-						},
-						'zh-tw': {
-							'removeBanner': '移除此橫幅',
-							'bannerSettings': '橫幅設定',
-							'bannerRemoved': '已移除橫幅！您可在 {placeholder} 中重新啟用橫幅。',
-							'undo': '復原',
-							'somethingWentWrong': '糟糕！發生錯誤。{placeholder}。',
-							'refreshAndTryAgain': '請重新整理，並再試一次',
-							'changeImage': '變更影像',
-							'closeSimpleOverlayAltText': '關閉對話方塊',
-							'bannerRemovedMenu': '橫幅移已移除！您可以使用畫面底部的首頁功能表重新啟用橫幅。'
-						}
+                        'en': this.en,
+						'ar': this.ar,
+						'de': this.de,
+						'es': this.es,
+						'fr': this.fr,
+						'ja': this.ja,
+						'ko': this.ko,
+						'nl': this.nl,
+						'pt': this.pt,
+						'sv': this.sv,
+						'tr': this.tr,
+						'zh': this.zh,
+						'zh-tw': this.zhtw
 					};
 				}
 			}
@@ -165,8 +48,21 @@
 	/*
 	 * @polymerBehavior D2L.PolymerBehaviors.ImageBanner.LocalizeBehavior
 	 */
-	D2L.PolymerBehaviors.ImageBanner.LocalizeBehavior = [
+    D2L.PolymerBehaviors.ImageBanner.LocalizeBehavior = [
 		D2L.PolymerBehaviors.LocalizeBehavior,
-		D2L.PolymerBehaviors.ImageBanner.LocalizeBehaviorImpl
+		D2L.PolymerBehaviors.ImageBanner.LocalizeBehaviorImpl,
+        D2L.PolymerBehaviors.ImageBanner.LangArBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangDeBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangEnBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangEsBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangFrBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangJaBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangKoBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangNlBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangPtBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangSvBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangTrBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangZhTwBehavior,
+		D2L.PolymerBehaviors.ImageBanner.LangZhBehavior
 	];
 </script>

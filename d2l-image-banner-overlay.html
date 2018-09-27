@@ -43,12 +43,6 @@ An overlay for course image banners that displays the course name and menu.
 				<d2l-dropdown-menu>
 					<d2l-menu label$="[[localize('bannerSettings')]]">
 						<d2l-menu-item
-							id="opt-out-button"
-							hidden$="[[!_showRemoveBannerMenuItem]]"
-							text="[[localize('removeBanner')]]"
-							on-d2l-menu-item-select="_toggleCourseBanner">
-						</d2l-menu-item>
-						<d2l-menu-item
 							id="change-image-button"
 							hidden$="[[!_showChangeImageMenuItem]]"
 							text="[[localize('changeImage')]]"
@@ -56,8 +50,14 @@ An overlay for course image banners that displays the course name and menu.
 						</d2l-menu-item>
 						<d2l-menu-item
 							hidden$="[[!canChangeBannerTitle]]"
-							text="Change Banner Title"
+							text="[[localize('customizeBannerText')]]"
 							on-d2l-menu-item-select="_changeBannerTitle">
+						</d2l-menu-item>
+						<d2l-menu-item
+							id="opt-out-button"
+							hidden$="[[!_showRemoveBannerMenuItem]]"
+							text="[[localize('removeBanner')]]"
+							on-d2l-menu-item-select="_toggleCourseBanner">
 						</d2l-menu-item>
 					</d2l-menu>
 				</d2l-dropdown-menu>
