@@ -21,7 +21,7 @@ var config = {
 	localeFiles: Object.keys(localeResources).map((lang) => ({
 		filename: lang,
 		data: {
-			lang: lang,
+			lang: lang.replace('-', ''),
 			properLang: lang.charAt(0).toUpperCase() + lang.slice(1).replace('-', ''),
 			resources: JSON.stringify(localeResources[lang], null, '\t\t\t\t'),
 			comment: 'This file is auto-generated. Do not modify.'
