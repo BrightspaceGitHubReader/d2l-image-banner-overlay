@@ -1,12 +1,12 @@
 {
-	"bannerRemoved": "Banner removed! You can re-enable the banner in {placeholder}.",
-	"bannerRemovedMenu": "Banner removed! You can re-enable the banner using the Homepage menu at the bottom of the screen.",
-	"bannerSettings": "Banner Settings",
-	"changeImage": "Change Image",
-	"closeSimpleOverlayAltText" : "Close Dialog",
-	"customizeBannerText" : "Customize Banner Text",
-	"refreshAndTryAgain": "Refresh and try again",
-	"removeBanner": "Remove This Banner",
-	"somethingWentWrong": "Oops! Something went wrong. {placeholder}.",
-	"undo": "Undo"
+   "bannerRemoved" : "Banner removido! Você pode reativar o banner em {placeholder}.",
+   "bannerRemovedMenu" : "Banner removido! Você pode reativar o banner usando o menu Página inicial, na parte inferior da tela.",
+   "bannerSettings" : "Configurações do banner",
+   "changeImage" : "Alterar imagem",
+   "closeSimpleOverlayAltText" : "Fechar caixa de diálogo",
+   "customizeBannerText" : "Personalizar o texto do banner",
+   "refreshAndTryAgain" : "Atualizar e tentar novamente",
+   "removeBanner" : "Remover este banner",
+   "somethingWentWrong" : "Opa! Algo deu errado. {placeholder}.",
+   "undo" : "Desfazer"
 }
