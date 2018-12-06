@@ -2,8 +2,8 @@ language: node_js
 node_js: node
 script:
 - npm run lint
-- 'if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then polymer test --skip-plugin local; fi'
-- 'if [ "$TRAVIS_SECURE_ENV_VARS" = "false" ]; then polymer test --skip-plugin sauce; fi'
+- 'if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then npm run test:polymer:sauce; fi'
+- 'if [ "$TRAVIS_SECURE_ENV_VARS" = "false" ]; then npm run test:polymer:local; fi'
 env:
   global:
   - SAUCE_USERNAME: Desire2Learn

@@ -5,10 +5,12 @@
   "scripts": {
     "postinstall": "polymer install --variants",
     "build": "gulp build",
-    "test": "npm run lint && polymer test --skip-plugin sauce",
     "lint": "npm run lint:js && npm run lint:wc",
     "lint:js": "eslint --ext .js,.html --ignore-pattern /bower_components-1.x/* .",
-    "lint:wc": "polymer lint"
+    "lint:wc": "polymer lint",
+    "test": "npm run lint && npm run test:polymer:local",
+    "test:polymer:local": "polymer test --skip-plugin sauce",
+    "test:polymer:sauce": "polymer test --skip-plugin local"
   },
   "homepage": "https://github.com/Brightspace/d2l-image-banner-overlay",
   "repository": {
