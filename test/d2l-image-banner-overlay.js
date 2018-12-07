@@ -133,7 +133,7 @@ describe('d2l-image-banner-overlay', function() {
 		eventTestCases.forEach(function(testCase) {
 			it('should remove listener listen for "' + testCase.name + '" when detached', function(done) {
 				var spy = sinon.stub(component, testCase.observer);
-				Polymer.dom(component.parentNode).removeChild(component);
+				component.parentNode.removeChild(component);
 				animFrame(function() {
 					document.body.dispatchEvent(new CustomEvent(testCase.name));
 					animFrame(function() {
