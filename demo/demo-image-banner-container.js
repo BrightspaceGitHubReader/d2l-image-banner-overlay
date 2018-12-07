@@ -1,7 +1,9 @@
-<link rel="import" href="../../polymer/polymer.html">
+import '@polymer/polymer/polymer-legacy.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+const $_documentContainer = document.createElement('template');
 
-<dom-module id="demo-image-banner-container">
-	<template strip-whitespace>
+$_documentContainer.innerHTML = `<dom-module id="demo-image-banner-container">
+	<template strip-whitespace="">
 		<style>
 			:host {
 				display: block;
@@ -52,9 +54,10 @@
 			</div>
 		</div>
 	</template>
-	<script>
-		Polymer({
-			is: 'demo-image-banner-container'
-		});
-	</script>
-</dom-module>
+	
+</dom-module>`;
+
+document.head.appendChild($_documentContainer.content);
+Polymer({
+	is: 'demo-image-banner-container'
+});

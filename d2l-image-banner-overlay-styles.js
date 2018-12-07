@@ -1,8 +1,9 @@
-<link rel="import" href="../d2l-colors/d2l-colors.html">
-<link rel="import" href="../d2l-typography/d2l-typography-shared-styles.html">
+import 'd2l-colors/d2l-colors.js';
+import 'd2l-typography/d2l-typography-shared-styles.js';
+const $_documentContainer = document.createElement('template');
 
-<dom-module id="d2l-image-banner-overlay-styles">
-	<template strip-whitespace>
+$_documentContainer.innerHTML = `<dom-module id="d2l-image-banner-overlay-styles">
+	<template strip-whitespace="">
 		<style>
 			:host {
 				height: 100%;
@@ -271,4 +272,6 @@
 			}
 		</style>
 	</template>
-</dom-module>
+</dom-module>`;
+
+document.head.appendChild($_documentContainer.content);
