@@ -26,9 +26,9 @@ import 'd2l-polymer-behaviors/d2l-dom.js';
 import 'd2l-polymer-behaviors/d2l-focusable-behavior.js';
 import 'd2l-simple-overlay/d2l-simple-overlay.js';
 import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js';
+import 'siren-parser/siren-parser.js';
 import './d2l-image-banner-overlay-styles.js';
 import './localize-behavior.js';
-import SirenParse from 'siren-parser';
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -306,7 +306,7 @@ Polymer({
 		return this.getDefaultImageLink(image, 'wide');
 	},
 	_parseSiren: function(entity) {
-		return SirenParse(entity);
+		return window.D2L.Hypermedia.Siren.Parse(entity);
 	},
 	_computeShowDropdown: function(showRemove, showChange) {
 		return showRemove || showChange;
