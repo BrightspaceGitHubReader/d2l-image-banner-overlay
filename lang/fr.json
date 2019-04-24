@@ -1,12 +1,12 @@
 {
-   "bannerRemoved" : "Bannière supprimée! Vous pouvez la réactiver dans le {paramètre fictif}.",
-   "bannerRemovedMenu" : "Bannière supprimée! Vous pouvez la réactiver par l’intermédiaire du menu de la page d’accueil en bas de l’écran.",
+   "bannerRemoved" : "Bannière supprimée ! Vous pouvez réactiver la bannière dans {placeholder}.",
+   "bannerRemovedMenu" : "Bannière supprimée ! Vous pouvez réactiver la bannière à l’aide du menu Homepage (Page d’accueil) en bas de l’écran.",
    "bannerSettings" : "Paramètres de la bannière",
-   "changeImage" : "Modifier l'image",
+   "changeImage" : "Modifier l’image",
    "closeSimpleOverlayAltText" : "Fermer la boîte de dialogue",
    "customizeBannerText" : "Personnaliser le texte de la bannière",
-   "refreshAndTryAgain" : "Actualisez la page et réessayez",
-   "removeBanner" : "Supprimer cette bannière",
-   "somethingWentWrong" : "Oups! Un problème est survenu. {paramètre fictif}.",
+   "refreshAndTryAgain" : "Actualiser et réessayer",
+   "removeBanner" : "Supprimer la bannière",
+   "somethingWentWrong" : "Oups ! Un problème est survenu. {placeholder}.",
    "undo" : "Annuler"
 }
