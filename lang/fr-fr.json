@@ -1,0 +1,12 @@
+{
+   "bannerRemoved" : "Bannière supprimée ! Vous pouvez réactiver la bannière dans {placeholder}.",
+   "bannerRemovedMenu" : "Bannière supprimée ! Vous pouvez réactiver la bannière à l’aide du menu Homepage (Page d’accueil) en bas de l’écran.",
+   "bannerSettings" : "Paramètres de la bannière",
+   "changeImage" : "Modifier l’image",
+   "closeSimpleOverlayAltText" : "Fermer la boîte de dialogue",
+   "customizeBannerText" : "Personnaliser le texte de la bannière",
+   "refreshAndTryAgain" : "Actualiser et réessayer",
+   "removeBanner" : "Supprimer la bannière",
+   "somethingWentWrong" : "Oups ! Un problème est survenu. {placeholder}.",
+   "undo" : "Annuler"
+}
