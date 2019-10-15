@@ -5,6 +5,7 @@
 	"changeImage": "Change Image",
 	"closeSimpleOverlayAltText" : "Close Dialog",
 	"customizeBannerText" : "Customize Banner Text",
+	"imageLoadingError": "Oops! Unable to load course image, it may have been moved or deleted.",
 	"refreshAndTryAgain": "Refresh and try again",
 	"removeBanner": "Remove This Banner",
 	"somethingWentWrong": "Oops! Something went wrong. {placeholder}.",
