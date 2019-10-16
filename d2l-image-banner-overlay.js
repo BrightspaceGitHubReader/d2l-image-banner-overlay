@@ -75,7 +75,7 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-image-banner-overlay">
 		<d2l-alert id="errorAlert" hidden$="[[!_showBannerErrorAlert]]" has-close-button="true" role="alert" type="error">
 			<span>[[_errorAlertStart]]</span><d2l-link href="javascript:window.location.reload(true)">[[localize('refreshAndTryAgain')]]</d2l-link><span>[[_errorAlertEnd]]</span>
 		</d2l-alert>
-		<d2l-alert hidden$="[[!_showErrorLoadingBannerImage]]" class="d2l-image-banner-error-alert" role="alert" type="error">
+		<d2l-alert hidden$="[[!_showErrorLoadingBannerImage]]" class="d2l-image-banner-error-alert" type="error">
 			<span>[[localize('imageLoadingError')]]</span>
 		</d2l-alert>
 	</template>
