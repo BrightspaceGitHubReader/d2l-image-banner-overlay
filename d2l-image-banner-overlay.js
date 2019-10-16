@@ -330,7 +330,7 @@ Polymer({
 		return !!url;
 	},
 	_computeShowErrorLoadingBannerImage: function(errorLoadingBannerImage,  showBannerErrorAlert, showBannerRemovedAlert) {
-			return errorLoadingBannerImage && !showBannerErrorAlert && !showBannerRemovedAlert;
+		return errorLoadingBannerImage && !showBannerErrorAlert && !showBannerRemovedAlert;
 	},
 	_onCourseImageResponse: function(courseImage) {
 		this._nextImage = this._parseSiren(courseImage);
