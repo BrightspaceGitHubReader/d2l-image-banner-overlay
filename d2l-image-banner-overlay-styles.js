@@ -149,6 +149,14 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-image-banner-overlay-styles
 				font-size: 1rem;
 			}
 
+			.d2l-image-banner-error-alert {
+				margin-left: 2%;
+				margin-right: 2%;
+				position: absolute;
+				top: 20px;
+				width: 95%;
+			}
+
 			.loading-overlay {
 				align-items: center;
 				display: flex;

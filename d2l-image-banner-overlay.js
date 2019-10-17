@@ -75,8 +75,11 @@ $_documentContainer.innerHTML = `<dom-module id="d2l-image-banner-overlay">
 		<d2l-alert id="errorAlert" hidden$="[[!_showBannerErrorAlert]]" has-close-button="true" role="alert" type="error">
 			<span>[[_errorAlertStart]]</span><d2l-link href="javascript:window.location.reload(true)">[[localize('refreshAndTryAgain')]]</d2l-link><span>[[_errorAlertEnd]]</span>
 		</d2l-alert>
+		<d2l-alert hidden$="[[!_showErrorLoadingBannerImage]]" class="d2l-image-banner-error-alert" type="error">
+			<span>[[localize('imageLoadingError')]]</span>
+		</d2l-alert>
 	</template>
-	
+
 </dom-module>`;
 
 document.head.appendChild($_documentContainer.content);
@@ -116,6 +119,13 @@ Polymer({
 			type: Boolean,
 			value: false
 		},
+		/**
+		 * Whether or not an error occurred when loading the banner image
+		 */
+		errorLoadingBannerImage: {
+			type: Boolean,
+			value: false
+		},
 		_removeBannerUrl: String, // the URL of the siren action to be executed when the remove banner menu option is clicked
 		_addBannerUrl: String, // the URL of the siren action to be executed when the Undo option is clicked on the alert
 		_changeImageUrl: String, // the URL of the siren action to be executed to set a course image catalog image for a course
@@ -148,6 +158,11 @@ Polymer({
 			type: Boolean,
 			value: false,
 			computed: '_computeShowMenuItem(_removeBannerUrl)'
+		},
+		_showErrorLoadingBannerImage: {
+			type: Boolean,
+			value: false,
+			computed: '_computeShowErrorLoadingBannerImage(errorLoadingBannerImage, _showBannerErrorAlert, _showBannerRemovedAlert)'
 		}
 	},
 	behaviors: [
@@ -313,6 +328,9 @@ Polymer({
 	},
 	_computeShowMenuItem: function(url) {
 		return !!url;
+	},
+	_computeShowErrorLoadingBannerImage: function(errorLoadingBannerImage,  showBannerErrorAlert, showBannerRemovedAlert) {
+		return errorLoadingBannerImage && !showBannerErrorAlert && !showBannerRemovedAlert;
 	},
 	_onCourseImageResponse: function(courseImage) {
 		this._nextImage = this._parseSiren(courseImage);
