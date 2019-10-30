@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangFrBehavior = {
 		"changeImage": "Modifier l'image",
 		"closeSimpleOverlayAltText": "Fermer la boîte de dialogue",
 		"customizeBannerText": "Personnaliser le texte de la bannière",
+		"imageLoadingError": "Oups! Impossible de charger l’image du cours, elle pourrait avoir été déplacée ou supprimée.",
 		"refreshAndTryAgain": "Actualisez la page et réessayez",
 		"removeBanner": "Supprimer cette bannière",
 		"somethingWentWrong": "Oups! Un problème est survenu. {paramètre fictif}.",

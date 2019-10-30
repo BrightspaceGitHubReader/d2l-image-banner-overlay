@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangDeBehavior = {
 		"changeImage": "Bild ändern",
 		"closeSimpleOverlayAltText": "Dialogfeld schließen",
 		"customizeBannerText": "Bannertext anpassen",
+		"imageLoadingError": "Hoppla! Kurssymbol kann als Bild nicht geladen werden; es wurde möglicherweise verschoben oder gelöscht.",
 		"refreshAndTryAgain": "Neu laden und erneut versuchen",
 		"removeBanner": "DIeses Banner entfernen",
 		"somethingWentWrong": "Hoppla! Etwas ist schiefgelaufen. {placeholder}.",

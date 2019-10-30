@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangTrBehavior = {
 		"changeImage": "Görüntüyü Değiştir",
 		"closeSimpleOverlayAltText": "İletişim Kutusunu Kapat",
 		"customizeBannerText": "Başlık Sayfası Metnini Kişiselleştir",
+		"imageLoadingError": "Üzgünüz! Ders görüntüsü yüklenemiyor, taşınmış veya silinmiş olabilir.",
 		"refreshAndTryAgain": "Yenileyin ve tekrar deneyin",
 		"removeBanner": "Bu Başlığı Sil",
 		"somethingWentWrong": "Üzgünüz! Bir sorun oluştu. {placeholder}.",

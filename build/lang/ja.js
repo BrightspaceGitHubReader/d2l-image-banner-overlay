@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangJaBehavior = {
 		"changeImage": "イメージの変更",
 		"closeSimpleOverlayAltText": "ダイアログを閉じる",
 		"customizeBannerText": "バナーテキストのカスタマイズ",
+		"imageLoadingError": "申し訳ありません。コースイメージを読み込めません。すでに移動または削除された可能性があります。",
 		"refreshAndTryAgain": "更新してもう一度試してください",
 		"removeBanner": "このバナーを削除",
 		"somethingWentWrong": "申し訳ありません。問題が発生しました。{placeholder}。",

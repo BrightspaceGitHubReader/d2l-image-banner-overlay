@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangNlBehavior = {
 		"changeImage": "Afbeelding wijzigen",
 		"closeSimpleOverlayAltText": "Dialoogvenster sluiten",
 		"customizeBannerText": "Bannertekst aanpassen",
+		"imageLoadingError": "Oeps! Kan cursusafbeelding niet laden. Deze is mogelijk verplaatst of verwijderd.",
 		"refreshAndTryAgain": "Vernieuw en probeer het opnieuw",
 		"removeBanner": "Deze banner verwijderen",
 		"somethingWentWrong": "Oeps! Er is iets fout gegaan. {placeholder}.",
