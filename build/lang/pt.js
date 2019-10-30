@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangPtBehavior = {
 		"changeImage": "Alterar imagem",
 		"closeSimpleOverlayAltText": "Fechar caixa de diálogo",
 		"customizeBannerText": "Personalizar o texto do banner",
+		"imageLoadingError": "Opa! Não é possível carregar a imagem do curso, talvez ela tenha sido movida ou excluída.",
 		"refreshAndTryAgain": "Atualizar e tentar novamente",
 		"removeBanner": "Remover este banner",
 		"somethingWentWrong": "Opa! Algo deu errado. {placeholder}.",

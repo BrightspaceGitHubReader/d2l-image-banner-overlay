@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangArBehavior = {
 		"changeImage": "تغيير الصورة",
 		"closeSimpleOverlayAltText": "إغلاق مربع الحوار",
 		"customizeBannerText": "تخصيص نص الشعار",
+		"imageLoadingError": "عذرًا! يتعذّر تحميل صورة المقرر التعليمي، ربما تم نقلها أو حذفها.",
 		"refreshAndTryAgain": "التحديث وإعادة المحاولة",
 		"removeBanner": "إزالة هذا الشعار",
 		"somethingWentWrong": "عذرًا! حدث خطأ ما. {placeholder}.",

@@ -5,6 +5,7 @@
    "changeImage" : "更改图像",
    "closeSimpleOverlayAltText" : "关闭对话框",
    "customizeBannerText" : "自定义横幅文本",
+   "imageLoadingError" : "糟糕！无法加载课程图像，其可能已经移动或删除。",
    "refreshAndTryAgain" : "刷新并重试",
    "removeBanner" : "移除此横幅",
    "somethingWentWrong" : "糟糕！出现错误。{placeholder}。",

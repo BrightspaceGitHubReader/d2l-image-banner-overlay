@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangSvBehavior = {
 		"changeImage": "Ändra bild",
 		"closeSimpleOverlayAltText": "Stäng dialogruta",
 		"customizeBannerText": "Customize Banner Text",
+		"imageLoadingError": "Hoppsan! Det gick inte att läsa in kursbilden. Den kan ha flyttats eller tagits bort.",
 		"refreshAndTryAgain": "Refresh and try again",
 		"removeBanner": "Ta bort banner",
 		"somethingWentWrong": "Hoppsan! Något gick fel. (Platshållare)",

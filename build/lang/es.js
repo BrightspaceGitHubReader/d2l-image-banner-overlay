@@ -14,6 +14,7 @@ D2L.PolymerBehaviors.ImageBanner.LangEsBehavior = {
 		"changeImage": "Cambiar imagen",
 		"closeSimpleOverlayAltText": "Cerrar el cuadro de diálogo",
 		"customizeBannerText": "Personalizar el texto del banner",
+		"imageLoadingError": "Lo sentimos. No se puede cargar la imagen del curso, es posible que se haya movido o eliminado.",
 		"refreshAndTryAgain": "Actualizar y volver a intentarlo",
 		"removeBanner": "Quitar este banner",
 		"somethingWentWrong": "Lo sentimos. Se produjo un error. {placeholder}.",
