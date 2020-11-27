@@ -1,0 +1,13 @@
+{
+   "bannerRemoved" : "Banner fjernet! Du kan genaktivere banneret i {placeholder}.",
+   "bannerRemovedMenu" : "Banner fjernet! Du kan genaktivere banneret vha. menuen Hjemmeside nederst på skærmen.",
+   "bannerSettings" : "Indstillinger for banner",
+   "changeImage" : "Skift billede",
+   "closeSimpleOverlayAltText" : "Luk dialogboks",
+   "customizeBannerText" : "Tilpas bannertekst",
+   "imageLoadingError" : "Hovsa! Kan ikke indlæse kursusbillede. Det kan være blevet flyttet eller slettet.",
+   "refreshAndTryAgain" : "Opdater og prøv igen",
+   "removeBanner" : "Fjern dette banner",
+   "somethingWentWrong" : "Hovsa! Noget gik galt. {placeholder}.",
+   "undo" : "Fortryd"
+}
