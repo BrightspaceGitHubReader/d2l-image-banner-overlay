@@ -1,0 +1,13 @@
+{
+   "bannerRemoved" : "Mae’r faner wedi cael ei thynnu! Gallwch ail-alluogi’r faner yn {placeholder}.",
+   "bannerRemovedMenu" : "Mae’r faner wedi cael ei thynnu! Gallwch ail-alluogi’r faner drwy’r ddewislen ar y dudalen Hafan ar waelod y sgrin.",
+   "bannerSettings" : "Gosodiadau Baneri",
+   "changeImage" : "Newid y Ddelwedd",
+   "closeSimpleOverlayAltText" : "Cau’r Dialog",
+   "customizeBannerText" : "Addasu Testun Baner",
+   "imageLoadingError" : "O na! Ni ellir llwytho delwedd y cwrs, efallai ei bod wedi’u symud neu ddileu.",
+   "refreshAndTryAgain" : "Ail-lwythwch y dudalen a cheisiwch eto",
+   "removeBanner" : "Dileu’r Faner Hon",
+   "somethingWentWrong" : "O na! Aeth rhywbeth o’i le. {placeholder}.",
+   "undo" : "Dadwneud"
+}
