@@ -1,13 +1,13 @@
 {
-   "bannerRemoved" : "Banner borttagen! Du återaktiverar den i .",
+   "bannerRemoved" : "Banner borttagen! Du återaktiverar bannern i {placeholder}.",
    "bannerRemovedMenu" : "Banner borttagen! Du kan återaktivera bannern med hjälp av hemsidesmenyn längst ned på skärmen.",
-   "bannerSettings" : "Banner Settings",
+   "bannerSettings" : "Inställningar för banner",
    "changeImage" : "Ändra bild",
    "closeSimpleOverlayAltText" : "Stäng dialogruta",
-   "customizeBannerText" : "Customize Banner Text",
+   "customizeBannerText" : "Anpassa bannertext",
    "imageLoadingError" : "Hoppsan! Det gick inte att läsa in kursbilden. Den kan ha flyttats eller tagits bort.",
-   "refreshAndTryAgain" : "Refresh and try again",
+   "refreshAndTryAgain" : "Uppdatera och försök igen",
    "removeBanner" : "Ta bort banner",
-   "somethingWentWrong" : "Hoppsan! Något gick fel. (Platshållare)",
+   "somethingWentWrong" : "Hoppsan! Något gick fel. {placeholder}.",
    "undo" : "Ångra"
 }
